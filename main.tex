@@ -1,0 +1,98 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, margin=2.51cm]{geometry}
+%\usepackage{multicol}
+\usepackage{mathptmx}
+\usepackage{array}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage[compact]{titlesec} 
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage[bahasa]{babel}
+%\bibliographystyle{agsm}
+
+\addto{\captionsbahasa}{\renewcommand{\abstractname}{ABSTRACT}}
+\addto\captionsbahasa{\renewcommand{\refname}{Daftar Pustaka}}
+\renewcommand\thesection{ \arabic{section}.}
+\renewcommand\thesubsection{\thesection\arabic{subsection}}
+
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{15}\selectfont}
+\subsectionfont{\fontsize{11}{15}\normalfont}
+\subsubsectionfont{\fontsize{11}{15}\normalfont}
+\setlength{\columnsep}{7mm}
+\pagenumbering{gobble}
+\usepackage{indentfirst}
+%
+\addto\captionsbahasa{\renewcommand{\tablename}{\textbf{Tabel}}}
+\addto\captionsbahasa{\renewcommand{\figurename}{\textbf{Gambar}}}
+\usepackage{caption}
+\captionsetup[figure]{labelformat=simple, labelsep=period}
+\captionsetup[table]{labelformat=simple, labelsep=period}
+
+\renewenvironment{abstract}{%
+  \centering\small
+  \textbf\abstractname
+  \list{}{\leftmargin0cm \rightmargin\leftmargin}
+  \item\relax
+}{%
+  \endlist \par\bigskip
+}
+
+%  \titleformat{\section}
+%  {\normalfont\footnotesize\selectfont}{\thesection}{1em}{}
+% \titleformat{\subsection}
+% {\normalfont\tiny\selectfont}{\thesubsection}{1em}{}
+% \titleformat{\subsubsection}
+% {\normalfont\footnotesize\selectfont}{\thesubsubsection}{1em}{}
+
+
+
+
+
+
+
+%%%% MULAI EDIT-EDIT METADATA DIBAWAH INI %%%
+
+\makeatletter
+
+\title{Implementasi NestJS dan Prisma pada pengembangan Backend Monolitik pada Aplikasi Web Antria}\let\Title\@title   %Judul dalam bahasa Indonesia
+
+\newcommand{\EngTitle}{Implementation of Monolithic Backend Development with NestJS and Prisma for Antria's Web Application}  %Judul dalam bahasa Inggris
+
+\author{Muhammad Rovino Sanjaya}  \let\Author\@author  %Nama mhs
+\newcommand{\NIM}{1302204044} %Jangan lupa hapus tanda ( dan )
+\newcommand{\Prodi}{Rekayasa Perangkat Lunak}
+
+\newcommand{\Tanggal}{\the\day} % Tanggal Pengesahan
+\newcommand{\Bulan}{Desember} % Bulan PENGESAHAN
+\newcommand{\Tahun}{2024} % Bulan Pengesahan
+\newcommand{\PembimbingSatu}{(Dr. Mira Kania Sabariah, S.T., M.T.)}
+\newcommand{\NIPPembimbingSatu}{14770011}
+\newcommand{\PembimbingDua}{(Monterico Adrian, S.T., M.T.)}
+\newcommand{\NIPPembimbingDua}{20870024}
+\newcommand{\Kaprodi}{Dr. Mira Kania Sabariah, S.T., M.T.}
+\newcommand{\NIPKaprodi}{14770011}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\date{ \today}\let\Date\@date
+\makeatother
+\linespread{2}
+
+\begin{document}
+   % \linespread{2}
+    \include{Cover} %tidak perlu diubah
+    \newpage
+    \linespread{1.5}
+    \include{Pengesahan} %tidak perlu diubah
+    \newpage
+    \include{Pernyataan}%tidak perlu diubah
+    \newpage
+    \include{Paper}% silakan ubah pada file paper.tex
+
+\end{document}
