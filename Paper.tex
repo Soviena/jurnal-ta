@@ -27,7 +27,7 @@ $^1$rovino@students.telkomuniversity.ac.id, $^2$mirakarnia@telkomuniversity.ac.i
 {\bf \parindent0pt \noindent\rule{\textwidth}{1pt}
 Abstrak
 
-Populasi penduduk yang tinggi di Indonesia mengakibatkan antrian panjang dalam berbagai pelayanan publik atau pelayanan konsumen. Pelanggan harus datang ke tempat untuk mengambil antrian dan menunggu gilirannya, semakin panjang antrian, semakin lama waktu tunggu yang dibutuhkan. Hal ini tidak efisien dan menyebabkan banyak waktu terbuang hanya untuk menunggu antrian. Jika nomor antrian bisa didapatkan secara online dan dapat dipantau secara online, maka dapat mengurangi waktu yang terbuang. Dengan membuat aplikasi antrian virtual, diharapkan dapat memperpendek antrian secara fisik, dengan cara antri secara virtual, melihat antrian yang sedang berjalan, dan booking tempat. Pada Pengembangan aplikasi ini, framework yang digunakan adalah NestJS dan PrismaJS dengan menerapkan RESTful API, Object Relational Mapping, dan menghindari Anti-Pattern. Framework NestJS mendukung pembuatan aplikasi ber-arsitektur monolitik dan \textit{microservice}. Setelah aplikasi dibangun di arsitektur monolitik, aplikasi dapat dengan mudah dimigrasikan ke \textit{microservice} saat penggunaan aplikasi sudah hampir mendekati batas muat pengguna.\\
+Populasi penduduk yang tinggi di Indonesia mengakibatkan antrian panjang dalam berbagai pelayanan publik atau pelayanan konsumen. Pelanggan harus datang ke tempat untuk mengambil antrian dan menunggu gilirannya, semakin panjang antrian, semakin lama waktu tunggu yang dibutuhkan. Hal ini tidak efisien dan menyebabkan banyak waktu terbuang hanya untuk menunggu antrian. Jika nomor antrian bisa didapatkan secara online dan dapat dipantau secara online, maka dapat mengurangi waktu yang terbuang. Dengan aplikasi antrian virtual dapat memperpendek antrian secara fisik, dengan cara antri secara virtual, melihat antrian yang sedang berjalan, dan booking tempat. Pada Pengembangan aplikasi ini, framework yang digunakan adalah NestJS dan PrismaJS dengan menerapkan RESTful API, Object Relational Mapping, dan menghindari Anti-Pattern. Framework NestJS mendukung pembuatan aplikasi ber-arsitektur monolitik dan \textit{microservice}. Setelah aplikasi dibangun di arsitektur monolitik, aplikasi dapat dengan mudah dimigrasikan ke \textit{microservice} saat penggunaan aplikasi sudah hampir mendekati batas muat pengguna.\\
 
  \bigskip
 Kata kunci : NestJS, PrismaJS, Anti-Pattern, Antrian, Backend, REST
@@ -71,6 +71,14 @@ Implementasi Application Programming Interface (API) yang digunakan adalah Repre
 Berdasarkan uraian di atas, penelitian ini akan membuat sebuah \textit{backend} aplikasi antrian dengan menggunakan arsitektur monolitik dengan \textit{framework} NestJs dan PrismaJs sebagai \textit{framework} nya. Setelah fitur-fitur aplikasi dibuat, perlu dilakukan unit testing untuk memvalidasi kodingan yang telah ditulis. Hal ini bertujuan untuk meminimalisir bug dan mencegah terjadinya regresi saat fitur baru ditambahkan \cite{runeson2006survey}.\\
 
 \noindent\textbf{Topik dan Batasannya}
+
+Aplikasi antria memerlukan backend developer untuk mengimplementasi-kan fungsi fungsi API dan manajemen database nya. Maka dapat dirumuskan permasalahan sebagai berikut:
+\begin{enumerate}
+  \item Bagaimana meningkatkan \textit{sustainability} dan \textit{maintainability} pada penggunaan manajemen database.
+  \item Bagaimana merancang API yang bebas dari \textit{anti pattern}.
+  \item Bagaimana merancang sistem keamanan pada API untuk melayani \textit{request}.
+\end{enumerate}
+dan batasan masalah sebagai berikut:
 \begin{enumerate}
   \item Hanya berfokus kepada implementasi database menggunakan Prisma ORM.
   \item Berfokus ke bagaimana membuat \textit{endpoint} API yang tidak menimbulkan \textit{anti pattern}.
@@ -80,7 +88,7 @@ Berdasarkan uraian di atas, penelitian ini akan membuat sebuah \textit{backend} 
 
 \noindent\textbf{Tujuan}
 
-Sub-bagian Tujuan ini menerangkan kondisi apa yang hendak dicapai atau pertanyaan yang hendak dicari jawabannya. Sebisa mungkin tuliskan Tujuan dari pengerjaan Tugas Akhir ini yaitu:
+Tujuan dari pengerjaan Tugas Akhir ini yaitu:
 \begin{enumerate}
   \item Mengimplementasikan Prisma ORM untuk meningkatkan \textit{sustainability} dan \textit{maintainability} pada manajemen database.
   \item Membuat dokumentasi API yang dapat dengan mudah di \textit{sustain} dan di \textit{maintain}.
