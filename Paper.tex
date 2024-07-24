@@ -74,7 +74,7 @@ Berdasarkan uraian di atas, penelitian ini akan membuat sebuah \textit{backend} 
 
 Aplikasi antria memerlukan backend developer untuk mengimplementasi-kan fungsi fungsi API dan manajemen database nya. Maka dapat dirumuskan permasalahan sebagai berikut:
 \begin{enumerate}
-  \item Bagaimana meningkatkan \textit{sustainability} dan \textit{maintainability} pada penggunaan manajemen database.
+  \item Bagaimana meningkatkan \textit{maintainability} penggunaan database pada projek.
   \item Bagaimana merancang API yang bebas dari \textit{anti pattern}.
   \item Bagaimana merancang sistem keamanan pada API untuk melayani \textit{request}.
 \end{enumerate}
@@ -90,9 +90,9 @@ dan batasan masalah sebagai berikut:
 
 Tujuan dari pengerjaan Tugas Akhir ini yaitu:
 \begin{enumerate}
-  \item Mengimplementasikan Prisma ORM untuk meningkatkan \textit{sustainability} dan \textit{maintainability} pada manajemen database.
-  \item Membuat dokumentasi API yang dapat dengan mudah di \textit{sustain} dan di \textit{maintain}.
-  \item Mengamankan data pengguna dengan menambahkan \textit{anti request tampering} pada setiap header request.
+  \item Mengimplementasikan Prisma ORM untuk meningkatkan \textit{maintainability} pada penggunaan database.
+  \item Membuat dokumentasi API yang dapat dengan mudah dimengerti dan di \textit{maintain}.
+  \item Mengamankan data pengguna dengan memerlukan \textit{Authorization} pada setiap header request.
   
 \end{enumerate}
 
@@ -129,23 +129,24 @@ Representational State Transfer (RESTful) Application Programming Interface (API
 \newpage
 \section{Sistem yang Dibangun}
 
-Implementasi dan perancangan RESTful API, Database, dan fungsi bisnis dikembangkan menggunakan \textit{framework} NestJs. Pada NestJs terdapat beberapa komponen seperti: Middleware, Guards, Interceptor, Controller, dan Service. Service yang dipakai adalah PrismaJs untuk menghubungkan NestJs ke \textit{Database System}. Gambar \ref{sistem-desain} merupakan \textit{Request Lifecycle} yang menjelaskan management API atau bagaimana alur \textit{request} ditangani dari awal sampai akhir. Adapun desain arsitektur sistem secara keseluruhan pada gambar \ref{sistem-desain-arsitektur}. Terdapat 3 Aplikasi frontend yang saling terhubung via backend, Aplikasi Pelanggan berupa flutter, Aplikasi Mitra berupa flutter, dan Website Dashboard Mitra berupa ReactJs. 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.35\textwidth]{drawio/sistem-desain.drawio.pdf}
-	\caption{Desain Sistem}
-	\label{sistem-desain}
-\end{figure}
+Implementasi dan perancangan RESTful API, Database, dan fungsi bisnis dikembangkan menggunakan \textit{framework} NestJs. Pada NestJs terdapat beberapa komponen seperti: Middleware, Guards, Interceptor, Controller, dan Service. Service yang dipakai adalah PrismaJs untuk menghubungkan NestJs ke \textit{Database System}. Desain arsitektur sistem secara keseluruhan pada gambar \ref{sistem-desain-arsitektur}. Terdapat 3 Aplikasi frontend yang saling terhubung via backend, Aplikasi Pelanggan berupa flutter, Aplikasi Mitra berupa flutter, dan Website Dashboard Mitra berupa ReactJs.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.73\textwidth]{drawio/System-Design-Architecture.drawio.pdf}
 	\caption{Arsitektur Desain Sistem}
 	\label{sistem-desain-arsitektur}
 \end{figure}
-
 \newpage
-\subsection{Middleware}
-Pada Middleware, fungsi akan dipanggil sebelum masuk ke routing. fungsi middleware dapat mengakses data \textit{request} dan \textit{response}. beberapa fungsi Middleware seperti \textit{logger}, dan cek notifikasi. Contoh penggunaan nya bisa seperti
+\subsection{Request Life Cycle}
+Gambar \ref{sistem-desain} merupakan \textit{Request Lifecycle} yang menjelaskan management API atau bagaimana alur \textit{request} ditangani dari awal sampai akhir.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.35\textwidth]{drawio/sistem-desain.drawio.pdf}
+	\caption{Desain Sistem}
+	\label{sistem-desain}
+\end{figure}
+\subsubsection{Middleware}
+Pada Middleware, fungsi akan dipanggil sebelum masuk ke routing. fungsi middleware dapat mengakses data \textit{request} dan \textit{response}. beberapa fungsi Middleware seperti \textit{logger}, dan cek notifikasi. Contoh penggunaan nya bisa dilihat pada listing \ref{lst:middleware}, request dapat di hentikan maupun di alihkan ke middleware selanjutnya.
 \begin{lstlisting}[caption={Middleware},label={lst:middleware}]
   export class LoggerMiddleware implements NestMiddleware {
     use(req: Request, res: Response, next: NextFunction) {
@@ -155,8 +156,8 @@ Pada Middleware, fungsi akan dipanggil sebelum masuk ke routing. fungsi middlewa
   }  
 \end{lstlisting}
 
-\subsection{Guard}
-Pada Guard, \textit{request} akan dicek \textit{authenticity}, untuk mengetahui validitas dari \textit{request} tersebut. Tahap ini juga akan dicek keamanan session menggunakan JWT dan CSRF. Contoh penggunaan guard seperti
+\subsubsection{Guard}
+Pada Guard, \textit{request} akan dicek \textit{authenticity}, untuk mengetahui validitas dari \textit{request} tersebut. Tahap ini juga akan dicek keamanan session menggunakan JWT dan CSRF. Contoh penggunaan guard seperti pada listing \ref{lst:guard}, request yang menuju suatu controller akan di cek oleh guards, jika memiliki otorisasi maka akan dilanjutkan ke controller, jika tidak akan di reject dengan response forbidden access.
 \begin{lstlisting}[caption={Penggunaan Guards pada Controller},label={lst:guard}]
   @UseGuards(AuthGuard)
   @Get('profile')
@@ -166,15 +167,15 @@ Pada Guard, \textit{request} akan dicek \textit{authenticity}, untuk mengetahui 
 \end{lstlisting}
 
 
-\subsection{Interceptor}
-Setelah melalui Guard, Request akan masuk ke Interceptor. Dimana jika suatu \textit{request} mempunyai suatu karakteristik yang ditentukan, maka akan menjalankan fungsi tambahan. Interceptor terjadi ketika \textit{request} datang \textit{(pre)}, dan response \textit{(post)}. Contoh implementasi Interceptor
+\subsubsection{Interceptor}
+Setelah melalui Guard, Request akan masuk ke Interceptor. Dimana jika suatu \textit{request} mempunyai suatu karakteristik yang ditentukan, maka akan menjalankan fungsi tambahan. Interceptor terjadi ketika \textit{request} datang \textit{(pre)}, dan response \textit{(post)}. Contoh implementasi Interceptor terdapat pada listing \ref{lst:interceptor}.
 \begin{lstlisting}[caption={Interceptor},label={lst:interceptor}]
   @UseInterceptors(FileInterceptor('profile_picture',fileInterceptor()))
   async update(@Param('id') id: string, @Body() data: Karyawan, @UploadedFile() file: Express.Multer.File): Promise<Karyawan> {}
 \end{lstlisting}
 
-\subsection{Controller}
-Setelah melewati Interceptor, fungsi di Controller akan dijalankan. Jika pada Controller tersebut perlu data dari database maka akan turun ke service PrismaJs.
+\subsubsection{Controller}
+Setelah melewati Interceptor, fungsi di Controller akan dijalankan. Jika pada Controller tersebut perlu data dari database maka akan turun ke service PrismaJs. Contoh karyawan controller pada listing \ref{lst:controller} dimana request akan diteruskan ke service setelah password di hash.
 \begin{lstlisting}[caption={Controller},label={lst:controller}]
   @Controller('karyawan')
   @Post()
@@ -185,8 +186,8 @@ Setelah melewati Interceptor, fungsi di Controller akan dijalankan. Jika pada Co
   }
 \end{lstlisting}
 
-\subsection{Service}
-Pada Service, fungsi akan melakukan database call menggunakan ORM ke database MySQL yang akan di kembalikan (return) ker Controller\cite{NestJS}. Contoh implementasi service
+\subsubsection{Service}
+Pada Service, fungsi akan melakukan database call menggunakan ORM ke database MySQL yang akan di kembalikan (return) ker Controller\cite{NestJS}. Contoh implementasi service pada listing \ref{lst:service} dimana berfungsi untuk mengambil banyak karyawan.
 \begin{lstlisting}[caption={Service},label={lst:service}]
   async karyawans(params: {
     skip?: number;
@@ -202,179 +203,65 @@ Pada Service, fungsi akan melakukan database call menggunakan ORM ke database My
   }
 \end{lstlisting}
 
-\subsection{Deployment}
-Ketika backend selesai di develope dan siap dipakai maka akan dilakukan deployment.
-Pada diagram \ref{deployment} menjelaskan bagaimana server backend berkomunikasi dengan Aplikasi lain melalui protokol HTTPS. 
+\subsection{Persiapan}
+Untuk memulai projek, ada beberapa tahap yang perlu dilakukan, pertama membuat projek nestjs menggunakan node, lalu dilanjutkan menginstall dependensi yang diperlukan
 
-\begin{figure}[h]
-	{\centering {\includegraphics[scale=0.5]{drawio/deployment.jpg}}\par}
-	\caption{Deployment Diagram}
-	\label{deployment}
+\subsubsection{Instalasi NestJS dan Prisma}
+Hal pertama yang dilakukan untuk menginstall NestJS adalah membuka terminal lalu menjalankan command npm untuk menginstall NestJS, dilanjut dengan menginstall prisma client.
+\begin{lstlisting}[caption={terminal: npm},label={lst:npm_install}]
+  $ npm i -g @nestjs/cli
+  $ nest new antria
+  $ npm install prisma --save-dev
+\end{lstlisting}
+Command pada listing \ref{lst:npm_install} untuk melakukan generasi folder projek pada NestJS, dan menginstall prisma client sebagai dependensi. Prisma sendiri merupakan aplikasi CLI untuk membantu dalam manajemen database pada projek NestJS menggunakan ORM.
+
+\subsubsection{Konfigurasi Prisma}
+Berdasarkan SRS, didapatkan beberapa entity pada database meliputi: Pelanggan, Mitra, Produk, OrderList, Pesanan, Antrian, Karyawan, Review, Chat, dan Analytic. Implementasi juga harus sesuai dengan ERD (Entity Relationship Diagram) yang telah dibuat pada gambar \ref{erd}.
+\begin{lstlisting}[caption={terminal: npx},label={lst:npx_prisma}]
+  $ npx prisma init
+  $ npx prisma migrate dev --name init
+\end{lstlisting}
+Command pada listing \ref{lst:npx_prisma} untuk inisialisasi prisma pada projek, berfungsi untuk generasi template config yang nanti harus diubah, seperti database connection dan database name nya.
+Pada tahap ini juga penulis perlu mendefinisikan model dan relasi pada database ke bentuk notasi modelling prisma.
+\begin{lstlisting}[caption={scheme.prisma},label={lst:scheme}]
+  model Pesanan {
+    invoice     String        @id
+    payment     Payment
+    pemesanan   OrderType?    @default(ONLINE)
+    takeaway    Boolean       @default(false)
+    status      PaymentStatus @default(PENDING)
+    oderlist    OrderList[]
+    pelanggan   Pelanggan     @relation(fields: [pelangganId], references: [id])
+    pelangganId Int
+    mitra       Mitra         @relation(fields: [mitraId], references: [id])
+    mitraId     Int
+    antrian     Antrian?
+    antrianId   Int?
+    created_at  DateTime      @default(now())
+    updated_at  DateTime      @updatedAt
+  }
+  model OrderList {
+    id        Int     @default(autoincrement()) @id
+    quantity  Int     @default(1)
+    note      String  @default("")
+    pesanan   Pesanan @relation(fields: [pesananId], references: [invoice])
+    produk    Produk  @relation(fields: [produkId], references: [id])
+    produkId  Int
+    pesananId String
+  }
+\end{lstlisting}
+Pada listing \ref{lst:scheme} penulis mendefinisikan skema model pesanan dan model orderlist beserta relasi nya pada prisma. syntax @relation berguna untuk mendefinisikan relasi nya pada model.
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=1\textwidth]{drawio/erd.mermaid.png}
+	\caption{Entity Relationship Diagram}
+	\label{erd}
 \end{figure}
 
-
-\section{Implementasi dan Evaluasi}
-
-\subsection{Prisma}
-Berdasarkan SRS, didapatkan beberapa entity pada database meliputi: Pelanggan, Mitra, Produk, OrderList, Pesanan, Antrian, Karyawan, Review, Chat, dan Analytic.
-\begin{lstlisting}[caption={Prisma Scheme},label={lst:scheme}]
-model Pelanggan {
-  id              Int       @default(autoincrement()) @id
-  username        String    @unique
-  password        String
-  email           String    @unique
-  emailVerified   Boolean   @default(false)
-  profile_picture String    @default("")
-  nama            String
-  handphone       String    @default("")
-  alamat          String    @default("")
-  review          Review[]
-  pesanan         Pesanan[]
-  chat            Chat[]
-  wallet          Int       @default(0)
-  created_at      DateTime  @default(now())
-  updated_at      DateTime  @updatedAt
-}
-
-model Mitra {
-  id              Int         @default(autoincrement()) @id
-  nama_toko       String      
-  deskripsi_toko  String
-  alamat          String
-  linkGmaps       String      @default("")
-  hari_buka       String      
-  jam_buka        String
-  jam_tutup       String
-  gambar_toko     String      @default("")
-  subscription    Boolean     @default(false)
-  review          Review[]
-  produk_layanan  Produk[]
-  order           Pesanan[]
-  karyawan        Karyawan[]
-  chat            Chat[]
-  status_toko     StatusToko  @default(OPEN)
-  created_at      DateTime    @default(now())
-  updated_at      DateTime    @updatedAt
-}
-model Produk {
-  id                Int       @default(autoincrement()) @id
-  nama_produk       String
-  deskripsi_produk  String 
-  harga             Int       
-  gambar            String    @default("default.png")
-  kuantitas         Int       @default(10)
-  mitra             Mitra     @relation(fields: [mitraId], references: [id])
-  mitraId           Int
-  orderList         OrderList[]
-  show_produk       Boolean   @default(true)
-  created_at        DateTime  @default(now())
-  updated_at        DateTime  @updatedAt
-}
-model OrderList {
-  id        Int       @default(autoincrement()) @id
-  quantity  Int       @default(1)
-  note      String    @default("")
-  pesanan   Pesanan   @relation(fields: [pesananId], references: [invoice])
-  produk    Produk    @relation(fields: [produkId], references: [id])
-  produkId  Int
-  pesananId String
-}
-model Pesanan {
-  invoice     String        @id  
-  payment     Payment
-  pemesanan   OrderType?    @default(ONLINE)
-  takeaway    Boolean       @default(false)
-  status      PaymentStatus @default(PENDING)
-  oderlist    OrderList[]
-  pelanggan   Pelanggan     @relation(fields: [pelangganId], references: [id])
-  pelangganId Int
-  mitra       Mitra         @relation(fields: [mitraId], references: [id])
-  mitraId     Int
-  antrian     Antrian?
-  antrianId   Int?
-  created_at  DateTime      @default(now())
-  updated_at  DateTime      @updatedAt
-}
-model Antrian {
-  id          Int         @default(autoincrement()) @id
-  estimasi    Int?
-  orderstatus OrderStatus @default(WAITING)
-  pesanan     Pesanan     @relation(fields: [pesananId], references: [invoice])
-  pesananId   String      @unique
-  created_at  DateTime    @default(now())
-  updated_at  DateTime    @updatedAt
-}
-model Karyawan {
-  id              Int       @default(autoincrement()) @id
-  username        String    @unique
-  password        String
-  email           String    @unique
-  profile_picture String    @default("")
-  nama            String
-  handphone       String    @default("")
-  alamat          String    @default("")
-  isOwner         Boolean   @default(false)
-  mitra           Mitra     @relation(fields: [mitraId], references: [id])
-  mitraId         Int
-  created_at      DateTime  @default(now())
-  updated_at      DateTime  @updatedAt
-}
-model Review {
-  komentar    String
-  rating      Int
-  mitra       Mitra     @relation(fields: [mitraId], references: [id])
-  mitraId     Int
-  reviewer    Pelanggan @relation(fields: [pelangganId], references: [id])
-  pelangganId Int
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt  
-
-  @@id([mitraId,pelangganId])
-}
-model Chat {
-  id          Int       @default(autoincrement()) @id
-  message     String
-  attachment  String?
-  pelanggan   Pelanggan @relation(fields: [pelangganId], references: [id])
-  pelangganId Int
-  mitra       Mitra     @relation(fields: [mitraId], references: [id])
-  mitraId     Int
-  isRead      Boolean
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt  
-}
-model Analytic {
-  id    Int     @default(autoincrement()) @id
-}
-enum Payment {
-  EWALLET
-  CASH
-}
-enum OrderStatus {
-  ALLDONE
-  CONFIRM
-  PROCESS
-  WAITING
-  CANCELED
-}
-enum PaymentStatus {
-  PENDING
-  SUCCESS
-  FAILED
-}
-enum OrderType {
-  ONLINE
-  OFFLINE
-}
-enum StatusToko {
-  OPEN
-  CLOSE
-  FULL
-}
-\end{lstlisting}
-
-\subsection{Guards}
-implementasi code guards dibuat 2 fungsi, guards untuk pengguna, dan guards untuk mitra.
+\subsection{Implementasi}
+\subsubsection{Guards}
+implementasi code guards dibuat 2 fungsi, guards untuk pengguna, dan guards untuk mitra. Contoh implementasi pada listing \ref{lst:authguards}, disini penulis mendefinisikan guard untuk memeriksa JWT Token dari request yang diterima apakah valid.
 \begin{lstlisting}[caption={Authentication Guards}, label={lst:authguards}]
   export class AuthGuard implements CanActivate {
     constructor(private jwtService: JwtService) {}
@@ -405,7 +292,7 @@ implementasi code guards dibuat 2 fungsi, guards untuk pengguna, dan guards untu
   }
 \end{lstlisting}
 
-\subsection{Interceptor}
+\subsubsection{Interceptor}
 Interceptor digunakan untuk mengambil file gambar dari request client, lalu disimpan ke dalam file storage server.
 \begin{lstlisting}[caption={File Interceptor},label={lst:fileinterceptor}]
   @UseInterceptors(FileInterceptor('profile_picture',{
@@ -421,391 +308,454 @@ Interceptor digunakan untuk mengambil file gambar dari request client, lalu disi
   }))
 \end{lstlisting}
 
-\subsection{Controller}
+\subsubsection{Controller}
 Controller minimal mengikuti banyak entity pada model. masing masing controller memiliki 4 fungsi yang merepresentasikan method http yaitu GET, POST, PUT, DELETE.
-\subsubsection{Pelanggan controller}
-\subsubsection{Mitra controller}
-\subsubsection{Produk controller}
-\subsubsection{OrderList controller}
-\subsubsection{Pesanan controller}
-\subsubsection{Antrian controller}
-\subsubsection{Karyawan controller}
-\subsubsection{Review controller}
-\subsubsection{Chat controller}
-\subsubsection{Analytic controller}
+\begin{enumerate}
+  \item Pelanggan controller
+  \item Mitra controller
+  \item Produk controller
+  \item OrderList controller
+  \item Pesanan controller
+  \item Antrian controller
+  \item Karyawan controller
+  \item Review controller
+  \item Analytic controller
+\end{enumerate}
 
-\subsection{Service}
+\subsubsection{Service}
 Sama seperti controller, banyak service minimal mengikuti banyak entity pada model.
 bedanya service berinteraksi langsung dengan ORM Prisma.
-\subsubsection{Pelanggan Service}
-\subsubsection{Mitra Service}
-\subsubsection{Produk Service}
-\subsubsection{OrderList Service}
-\subsubsection{Pesanan Service}
-\subsubsection{Antrian Service}
-\subsubsection{Karyawan Service}
-\subsubsection{Review Service}
-\subsubsection{Chat Service}
-\subsubsection{Analytic Service}
+\begin{enumerate}
+  \item Pelanggan Service
+  \item Mitra Service
+  \item Produk Service
+  \item OrderList Service
+  \item Pesanan Service
+  \item Antrian Service
+  \item Karyawan Service
+  \item Review Service
+  \item Analytic Service
+\end{enumerate}
 
-\subsection{API Endpoint}
+\subsubsection{API Endpoint}
 Untuk menghindari Anti Pattern, API endpoint sesuai dengan nama entity pada model.
 setiap endpoint entity mendukung 4 method http.
-\subsubsection{Auth Endpoint}
-Auth merupakan endpoint yang berhubungan dengan autentikasi client.
-\begin{longtable}{| p{3.5cm} | p{1.5cm} | p{3cm} | p{3cm} | p{4cm} |}
-  \caption{Auth Endpoint Table} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endfirsthead
+\begin{enumerate}
   
-  \multicolumn{5}{c}%
-  {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endhead
-  
-  \hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
-  \endfoot
-  
-  \hline
-  \endlastfoot
-  
-  /auth/login/pelanggan & POST &  &  & \\
-  \hline
-  /auth/login/mitra & POST &  &  & \\
-  \hline
-  /auth/profile & GET &  &  & \\
-  \hline
-  
-\end{longtable}
+  \item Auth Endpoint,
+  merupakan endpoint yang berhubungan dengan autentikasi client.
+  \begin{longtable}{| p{3.5cm} | p{1.5cm} | p{8cm} |}
+    \caption{Auth Endpoint Table} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endfirsthead
+    
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
+    
+    /auth/login/pelanggan & POST  & Endpoint untuk aplikasi mobile pelanggan, pengguna memasukkan credential login lalu akan mendapatkan JWT Token untuk mengakses enpoint API lain nya \\
+    \hline
+    /auth/login/mitra & POST & Endpoint untuk aplikasi mobile mitra, dan Web Dashboard. pengguna memasukkan credential login lalu akan mendapatkan JWT Token untuk mengakses enpoint API lain nya \\
+    \hline
+    /auth/profile & GET  & Endpoint untuk decode JWT payload \\
+    \hline
+    
+  \end{longtable}
 
-\subsubsection{Pelanggan Endpoint}
-Endpoint ini berhubungan dengan entity pelanggan pada model prisma.
-\begin{longtable}{| p{2.5cm} | p{1.5cm} | p{4cm} | p{3cm} | p{4cm} |}
-  \caption{Pelanggan Endpoint Table} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endfirsthead
-  
-  \multicolumn{5}{c}%
-  {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endhead
-  
-  \hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
-  \endfoot
-  
-  \hline
-  \endlastfoot
-  
-  /pelanggan & GET &  &  & \\
-  \hline
-  /pelanggan & POST &  &  & \\
-  \hline
-  /pelanggan/\{id\} & GET &  &  & \\
-  \hline
-  /pelanggan/\{id\} & PUT &  &  & \\
-  \hline
-  /pelanggan/\{id\} & DELETE &  &  & \\
+  \item Pelanggan Endpoint
+  Endpoint ini berhubungan dengan entity pelanggan pada model prisma.
+  \begin{longtable}{| p{2.5cm} | p{1.5cm} | p{9cm} |}
+    \caption{Pelanggan Endpoint Table} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endfirsthead
+    
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
+    
+    /pelanggan & GET  & Endpoint untuk mengambil seluruh pelanggan terdaftar pada aplikasi \\
+    \hline
+    /pelanggan & POST  & Endpoint untuk membuat akun pelanggan baru \\
+    \hline
+    /pelanggan/\{id\} & GET  & Endpoint untuk mengambil akun pelanggan dengan id tertentu \\
+    \hline
+    /pelanggan/\{id\} & PUT  & Endpoint untuk memperbarui akun pelanggan dengan id tertentu \\
+    \hline
+    /pelanggan/\{id\} & DELETE  & Endpoint untuk menghapus akun pelanggan dengan id tertentu \\
+    \hline
+    
+  \end{longtable}
+  \item Karyawan Endpoint
+  Endpoint ini berhubungan dengan entity karyawan pada model prisma.
+  \begin{longtable}{| p{4.5cm} | p{1.5cm} | p{7cm} |}
+    \caption{Karyawan Endpoint Table} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endfirsthead
+    
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
+    
+    /karyawan & GET  & Endpoint untuk mengambil seluruh karyawan terdaftar pada aplikasi \\
+    \hline
+    /karyawan & POST  & Endpoint untuk membuat akun karyawan baru \\
+    \hline
+    /karyawan/\{id\} & GET  & Endpoint untuk mengambil akun karyawan dengan id tertentu \\
+    \hline
+    /karyawan/\{id\} & PUT  & Endpoint untuk memperbarui akun karyawan dengan id tertentu \\
+    \hline
+    /karyawan/\{id\} & DELETE  & Endpoint untuk menghapus akun karyawan dengan id tertentu \\
+    \hline
+    /karyawan/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil seluruh karyawan terdaftar pada aplikasi dan id mitra tertentu \\
+    \hline
+    
+  \end{longtable}
 
-  \hline
-  
-\end{longtable}
-\subsubsection{Karyawan Endpoint}
-Endpoint ini berhubungan dengan entity karyawan pada model prisma.
-\begin{longtable}{| p{4.5cm} | p{1.5cm} | p{3cm} | p{3cm} | p{3cm} |}
-  \caption{Karyawan Endpoint Table} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endfirsthead
-  
-  \multicolumn{5}{c}%
-  {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endhead
-  
-  \hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
-  \endfoot
-  
-  \hline
-  \endlastfoot
-  
-  /karyawan & GET &  &  & \\
-  \hline
-  /karyawan & POST &  &  & \\
-  \hline
-  /karyawan/\{id\} & GET &  &  & \\
-  \hline
-  /karyawan/\{id\} & PUT &  &  & \\
-  \hline
-  /karyawan/\{id\} & DELETE &  &  & \\
-  \hline
-  /karyawan/mitra/\{mitraId\} & GET &  &  & \\
-  \hline
-  
-\end{longtable}
+  \item Mitra Endpoint
+  Endpoint mitra
+  \begin{longtable}{| p{2cm} | p{1.5cm} | p{9.5cm} |}
+    \caption{Mitra Endpoint Table} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endfirsthead
+    
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
+    
+    /mitra & GET  & Endpoint untuk mengambil seluruh mitra terdaftar pada aplikasi \\
+    \hline
+    /mitra & POST  & Endpoint untuk membuat akun mitra baru \\
+    \hline
+    /mitra/\{id\} & GET  & Endpoint untuk mengambil mitra dengan id tertentu \\
+    \hline
+    /mitra/\{id\} & PUT  & Endpoint untuk mengaupdate mitra dengan id tertentu \\
+    \hline
+    /mitra/\{id\} & DELETE  & Endpoint untuk menghapus mitra dengan id tertentu \\
+    \hline
+    
+  \end{longtable}
 
-\subsubsection{Mitra Endpoint}
-Endpoint mitra
-\begin{longtable}{| p{2cm} | p{1.5cm} | p{4.5cm} | p{3cm} | p{4cm} |}
-  \caption{Mitra Endpoint Table} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endfirsthead
-  
-  \multicolumn{5}{c}%
-  {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endhead
-  
-  \hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
-  \endfoot
-  
-  \hline
-  \endlastfoot
-  
-  /mitra & GET &  &  & \\
-  \hline
-  /mitra & POST &  &  & \\
-  \hline
-  /mitra/\{id\} & GET &  &  & \\
-  \hline
-  /mitra/\{id\} & PUT &  &  & \\
-  \hline
-  /mitra/\{id\} & DELETE &  &  & \\
-  \hline
-  
-\end{longtable}
+  \item Produk Endpoint
+  Endpoint produk
+  \begin{longtable}{| p{3.5cm} | p{1.5cm} | p{8cm} |}
+    \caption{Produk Endpoint Table} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endfirsthead
+    
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
+    
+    /produk & GET  & Endpoint untuk mengambil seluruh produk yang terdaftar pada aplikasi \\
+    \hline
+    /produk & POST  & Endpoint untuk membuat produk baru pada mitra tertentu \\
+    \hline
+    /produk/\{id\} & GET  & Endpoint untuk mengambil prduk dengan id tertentu \\
+    \hline
+    /produk/\{id\} & PUT  & Endpoint untuk memperbarui produk dengan id tertentu \\
+    \hline
+    /produk/\{id\} & DELETE  & Endpoint untuk menghapus produk dengan id tertentu \\
+    \hline
+    /produk/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil produk dari id mitra tertentu \\
+    \hline
+    
+  \end{longtable}
 
-\subsubsection{Produk Endpoint}
-Endpoint produk
-\begin{longtable}{| p{3.5cm} | p{1.5cm} | p{4cm} | p{3cm} | p{3cm} |}
-  \caption{Produk Endpoint Table} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endfirsthead
-  
-  \multicolumn{5}{c}%
-  {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endhead
-  
-  \hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
-  \endfoot
-  
-  \hline
-  \endlastfoot
-  
-  /produk & GET &  &  & \\
-  \hline
-  /produk & POST &  &  & \\
-  \hline
-  /produk/\{id\} & GET &  &  & \\
-  \hline
-  /produk/\{id\} & PUT &  &  & \\
-  \hline
-  /produk/\{id\} & DELETE &  &  & \\
-  \hline
-  /produk/mitra/\{mitraId\} & GET &  &  & \\
-  \hline
-  
-\end{longtable}
+  \item Pesanan Endpoint
+  pesanan endpoint
 
-\subsubsection{Pesanan Endpoint}
-pesanan endpoint
+  \begin{longtable}{| p{4cm} | p{1.5cm} | p{7.5cm} |}
+    \caption{Pesanan Endpoint Table} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endfirsthead
+    
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
+    
+    /pesanan & GET  & Endpoint untuk mengambil seluruh pesanan \\
+    \hline
+    /pesanan & POST  & Endpoint untuk membuat pesanan baru \\
+    \hline
+    /pesanan/\{invoice\} & GET  & Endpoint untuk mengambil pesanan dengan invoice tertentu \\
+    \hline
+    /pesanan/\{invoice\} & PUT  & Endpoint untuk memperbarui pesanan dengan invoice tertentu \\
+    \hline
+    /pesanan/\{invoice\} & DELETE  & Endpoint untuk menghapus pesanan dengan invoice tertentu \\
+    \hline
+    /pesanan/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil seluruh pesanan dari id mitra tertentu \\
+    \hline
+    
+  \end{longtable}
 
-\begin{longtable}{| p{4cm} | p{1.5cm} | p{3.5cm} | p{3cm} | p{3cm} |}
-  \caption{Pesanan Endpoint Table} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endfirsthead
-  
-  \multicolumn{5}{c}%
-  {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endhead
-  
-  \hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
-  \endfoot
-  
-  \hline
-  \endlastfoot
-  
-  /pesanan & GET &  &  & \\
-  \hline
-  /pesanan & POST &  &  & \\
-  \hline
-  /pesanan/\{invoice\} & GET &  &  & \\
-  \hline
-  /pesanan/\{invoice\} & PUT &  &  & \\
-  \hline
-  /pesanan/\{invoice\} & DELETE &  &  & \\
-  \hline
-  /pesanan/mitra/\{mitraId\} & GET &  &  & \\
-  \hline
-  
-\end{longtable}
+  \item OrderList Endpoint
+  Orderlist endpoint
 
-\subsubsection{OrderList Endpoint}
-Orderlist endpoint
+  \begin{longtable}{| p{4cm} | p{1.5cm} | p{7.5cm} |}
+    \caption{OrderList Endpoint Table} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endfirsthead
+    
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
+    
+    /orderlist & POST  & Endpoint untuk membuat orderlist baru\\
+    \hline
+    /orderlist/\{id\} & GET  & Endpoint untuk mengambil orderlist dengan id tertentu\\
+    \hline
+    /orderlist/\{id\} & PUT  & Endpoint untuk memperbarui orderlist dengan id tertentu\\
+    \hline
+    /orderlist/\{id\} & DELETE  & Endpoint untuk menghapus orderlist dengan id tertentu\\
+    \hline
+    /orderlist/invoice/\{invoice\} & GET  & Endpoint untuk mengambil orderlist dengan invoice pesanan tertentu\\
+    \hline
+    
+  \end{longtable}
 
-\begin{longtable}{| p{4cm} | p{1.5cm} | p{3.5cm} | p{3cm} | p{3cm} |}
-  \caption{OrderList Endpoint Table} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endfirsthead
-  
-  \multicolumn{5}{c}%
-  {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endhead
-  
-  \hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
-  \endfoot
-  
-  \hline
-  \endlastfoot
-  
-  /orderlist & POST &  &  & \\
-  \hline
-  /orderlist/\{id\} & GET &  &  & \\
-  \hline
-  /orderlist/\{id\} & PUT &  &  & \\
-  \hline
-  /orderlist/\{id\} & DELETE &  &  & \\
-  \hline
-  /orderlist/invoice/\{invoice\} & GET &  &  & \\
-  \hline
-  
-\end{longtable}
+  \item Antrian Endpoint
+  Antrian endpoint
+  \begin{longtable}{| p{4cm} | p{1.5cm} | p{7.5cm} |}
+    \caption{Antrian Endpoint Table} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endfirsthead
+    
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
+    
+    /antrian & POST  & Endpoint untuk membuat antrian baru \\
+    \hline
+    /antrian/\{id\} & GET  & Endpoint untuk mengambil antrian dengan id tertentu \\
+    \hline
+    /antrian/\{id\} & PUT  & Endpoint untuk memperbarui antrian dengan id tertentu \\
+    \hline
+    /antrian/\{id\} & DELETE  &  Endpoint untuk menghapus antrian dengan id tertentu \\
+    \hline
+    /antrian/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil antrian pada mitra tertentu \\
+    \hline
+    
+  \end{longtable}
 
-\subsubsection{Antrian Endpoint}
-Antrian endpoint
-\begin{longtable}{| p{4cm} | p{1.5cm} | p{3.5cm} | p{3cm} | p{3cm} |}
-  \caption{Antrian Endpoint Table} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endfirsthead
-  
-  \multicolumn{5}{c}%
-  {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endhead
-  
-  \hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
-  \endfoot
-  
-  \hline
-  \endlastfoot
-  
-  /antrian & POST &  &  & \\
-  \hline
-  /antrian/\{id\} & GET &  &  & \\
-  \hline
-  /antrian/\{id\} & PUT &  &  & \\
-  \hline
-  /antrian/\{id\} & DELETE &  &  & \\
-  \hline
-  /antrian/mitra/\{mitraId\} & GET &  &  & \\
-  \hline
-  
-\end{longtable}
+  \item Reviews Endpoint
+  Reviews endpoint
+  \begin{longtable}{| p{5cm} | p{1.5cm} | p{6.5cm} |}
+    \caption{Reviews Endpoint Table} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endfirsthead
+    
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
+    /reviews & GET  & Endpoint untuk mengambil seluruh review \\
+    \hline
+    /reviews & POST  & Endpoint untuk membuat review baru \\
+    \hline
+    /reviews/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil review pada mitra tertentu \\
+    \hline
+    /reviews/\{mitraId\}/\{pelangganId\} & GET  & Endpoint untuk mengambil review pelanggan pada mitra tertentu \\
+    \hline
+    /reviews/\{mitraId\}/\{pelangganId\} & PUT  & Endpoint untuk memperbarui review pelanggan pada mitra tertentu \\
+    \hline
+    /reviews/\{mitraId\}/\{pelangganId\} & DELETE  & ndpoint untuk menghapus review pelanggan pada mitra tertentu\\
+    \hline
+    
+  \end{longtable}
 
-\subsubsection{Reviews Endpoint}
-Reviews endpoint
-\begin{longtable}{| p{5cm} | p{1.5cm} | p{3.5cm} | p{3cm} | p{2cm} |}
-  \caption{Reviews Endpoint Table} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endfirsthead
-  
-  \multicolumn{5}{c}%
-  {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endhead
-  
-  \hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
-  \endfoot
-  
-  \hline
-  \endlastfoot
-  /reviews & GET &  &  & \\
-  \hline
-  /reviews & POST &  &  & \\
-  \hline
-  /reviews/mitra/\{mitraId\} & GET &  &  & \\
-  \hline
-  /reviews/\{mitraId\}/\{pelangganId\} & GET &  &  & \\
-  \hline
-  /reviews/\{mitraId\}/\{pelangganId\} & PUT &  &  & \\
-  \hline
-  /reviews/\{mitraId\}/\{pelangganId\} & DELETE &  &  & \\
-  \hline
-  
-\end{longtable}
+  \item Image server endpoint
+  endpoint berikut untuk menyajikan gambar ke client
+  \begin{longtable}{| p{3cm} | p{1.5cm} | p{8.5cm} |}
+    \caption{Image server Endpoint Table} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endfirsthead
+    
+    \multicolumn{3}{c}%
+    {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+    \hline
+    \textbf{Path} & \textbf{Method} & \textbf{Description} \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+    \endfoot
+    
+    \hline
+    \endlastfoot
+    /image/\{fileName\} & GET  & Endpoint untuk menampilkan gambar dengan filename tertentu\\
+    \hline
+    
+  \end{longtable}
+\end{enumerate}
 
-\subsubsection{Image server endpoint}
-endpoint berikut untuk menyajikan gambar ke client
-\begin{longtable}{| p{3cm} | p{1.5cm} | p{4.5cm} | p{3cm} | p{3cm} |}
-  \caption{Image server Endpoint Table} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endfirsthead
-  
-  \multicolumn{5}{c}%
-  {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-  \hline
-  \textbf{Path} & \textbf{Method} & \textbf{Description} & \textbf{Parameters} & \textbf{Responses} \\
-  \hline
-  \endhead
-  
-  \hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
-  \endfoot
-  
-  \hline
-  \endlastfoot
-  /image/\{fileName\} & GET &  &  & \\
-  \hline
-  
-\end{longtable}
+\subsection{Alur Pengujian}
+Pengujian menggunakan metode white box testing yaitu unit testing. Testing dilakukan pada setiap fungsi yang telah dibuat tanpa terhubung ke komponen lain. Setelah semua fungsi lulus unit testing, dilakukan performance dan load testing menggunakan library K6 pada node.js untuk mnegukur performansi aplikasi. Environment Testing menggunakan lokal build pada laptop penulis dan menggunakan tunnelling Cloudflare untuk mengukur performa network dan cpu load nya. Diagram alur pengujian dapat dilihat pada gambar \ref{alur-testing}.
+
+\begin{figure}[h]
+	{\centering {\includegraphics[scale=0.75]{drawio/alur-testing.png}}\par}
+	\caption{Alur Testing}
+	\label{alur-testing}
+\end{figure}
+
+\subsubsection{Unit Testing}
+Pengujian dimulai dengan membuat file yang bernama <component>.spec.ts seperti terlihat pada gambar \ref{ut1}. Lalu pada file tersebut penulis mendeskripsikan test apa yang akan dibuat seperti contoh pada listing \ref{lst:jest-testing}, pertama difinisikan parameter yang diperlukan function lalu expect hasil keluaran fungsi sesuai dengan yang ditentukan.
+\begin{figure}[h]
+	{\centering {\includegraphics[scale=1]{drawio/unit-testing1.png}}\par}
+	\caption{File spec.ts}
+	\label{ut1}
+\end{figure}
+
+\begin{lstlisting}[caption={Contoh Testing Menggunakan Jest},label={lst:jest-testing}]
+  describe('canActivate', () => {
+  it('should return true if user role is karyawan', async () => {
+    const mockRequest = { user: { role: 'karyawan' } };
+    const mockContext = { switchToHttp: () => ({ getRequest: () => mockRequest }) } as unknown as ExecutionContext;
+
+    expect(await guard.canActivate(mockContext)).toBe(true);
+  });
+
+  it('should return false if user role is not karyawan', async () => {
+    const mockRequest = { user: { role: 'admin' } };
+    const mockContext = { switchToHttp: () => ({ getRequest: () => mockRequest }) } as unknown as ExecutionContext;
+
+    expect(await guard.canActivate(mockContext)).toBe(false);
+  });
+});
+\end{lstlisting}
+
+\subsection{Deployment}
+Ketika backend selesai di develope dan siap dipakai maka akan dilakukan deployment.
+Pada diagram \ref{deployment} menjelaskan bagaimana server backend berkomunikasi dengan Aplikasi lain melalui protokol HTTPS. 
+
+\begin{figure}[h]
+	{\centering {\includegraphics[scale=0.6]{drawio/deployment.jpg}}\par}
+	\caption{Deployment Diagram}
+	\label{deployment}
+\end{figure}
+
+\newpage
+
+\section{Evaluasi}
 
 \subsection{Hasil Pengujian}
+ Terdapat 2 Test suite pada setiap entity kecuali auth dimana auth memiliki 3 test suite yang ditotal sebanyak 21 test suite yang perlu dibuat dan dilakukan.
 
-Pertama, tampilkan hasil pengujian yang paling utama. Kemudian hasil-hasil yang lebih detil ditampilkan setelah hasil yang utama. Mengingat tinggi atau rendah, baik atau jeleknya hasil pengujian bersifat relatif, maka sangat dianjurkan ada pembanding (baseline) yang membandingkan dengan algoritma atau pendekatan yang dipilih untuk TA. Pembanding dijalankan pada lingkungan (termasuk data set) yang sama.
+\begin{figure}[h]
+	{\centering {\includegraphics[scale=0.8]{drawio/unitTesting.png}}\par}
+	\caption{Hasil unit testing menggunakan jest}
+	\label{unit-testing}
+\end{figure}
 
-Pilih tabel atau jenis diagram yang sesuai untuk menampilkan hasil pengujian. 
+\begin{figure}[h]
+	{\centering {\includegraphics[scale=0.9]{drawio/CoverageSummary.png}}\par}
+	\caption{Coverage Summary}
+	\label{coverage-summary}
+\end{figure}
 
+\newpage
 
 \subsection{Analisis Hasil Pengujian}
- Analisis merupakan salah satu bagian yang penting untuk TA. Pada TA S1 tidak dituntut untuk mendapatkan hasil performasi yang lebih bagus dibandingkan dengan baseline yang populer, yang dituntut adalah membuat analisis yang lengkap. Menganalisis pengaruh kondisi-kondisi yang berbeda (seperti parameter, jenis data, threshold, dan sub-sistem) yang digunakan. 
+ Analisis merupakan salah satu bagian yang penting untuk TA. Pada TA S1 tidak dituntut untuk mendapatkan hasil performasi yang lebih bagus dibandingkan dengan baseline yang populer, yang dituntut adalah membuat analisis yang lengkap. Menganalisis pengaruh kondisi-kondisi yang berbeda (seperti parameter, jenis data, threshold, dan sub-sistem) yang digunakan.
  
  Cara sitasi adalah sebagai berikut: \citep{van2002fundamentals} untuk buku, \citep{ochoa2003hybrid} untuk \textit{paper}, dan \citep{Budi} untuk website.
    
