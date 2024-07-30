@@ -96,9 +96,9 @@ Tujuan dari pengerjaan Tugas Akhir ini yaitu:
   
 \end{enumerate}
 
-\noindent \textbf{Organisasi Tulisan}
+% \noindent \textbf{Organisasi Tulisan}
 
-Pada sub-bagian ini dituliskan bagian-bagian selanjutnya (setelah Pendahuluan) pada jurnal TA ini, disertai penjelasan sangat singkat.
+% Pada sub-bagian ini dituliskan bagian-bagian selanjutnya (setelah Pendahuluan) pada jurnal TA ini, disertai penjelasan sangat singkat.
 
 \section{Kajian Pustaka}
 \subsection{NodeJs}
@@ -293,7 +293,7 @@ implementasi code guards dibuat 2 fungsi, guards untuk pengguna, dan guards untu
 \end{lstlisting}
 
 \subsubsection{Interceptor}
-Interceptor digunakan untuk mengambil file gambar dari request client, lalu disimpan ke dalam file storage server.
+Contoh implementasi terdapat pada listing \ref{lst:fileinterceptor}, dimana penulis mengimplementasikan interceptor untuk mendeteksi dan mengambil file dari multipart request data untuk diolah dan disimpan pada server.
 \begin{lstlisting}[caption={File Interceptor},label={lst:fileinterceptor}]
   @UseInterceptors(FileInterceptor('profile_picture',{
     storage: diskStorage({
@@ -309,7 +309,7 @@ Interceptor digunakan untuk mengambil file gambar dari request client, lalu disi
 \end{lstlisting}
 
 \subsubsection{Controller}
-Controller minimal mengikuti banyak entity pada model. masing masing controller memiliki 4 fungsi yang merepresentasikan method http yaitu GET, POST, PUT, DELETE.
+Controller minimal mengikuti banyak entity pada model. masing masing controller memiliki 4 fungsi yang merepresentasikan method http yaitu GET, POST, PUT, DELETE. Khusus untuk endpoint DELETE, pada beberapa cotroller data tidak secara langsung di delete, namun hanya diubah status nya dari enabled ke disabled.
 \begin{enumerate}
   \item Pelanggan controller
   \item Mitra controller
@@ -339,13 +339,12 @@ bedanya service berinteraksi langsung dengan ORM Prisma.
 
 \subsubsection{API Endpoint}
 Untuk menghindari Anti Pattern, API endpoint sesuai dengan nama entity pada model.
-setiap endpoint entity mendukung 4 method http.
+setiap endpoint entity mendukung 4 method http yaitu POST, GET, PUT, dan DELETE.
 \begin{enumerate}
-  
   \item Auth Endpoint,
-  merupakan endpoint yang berhubungan dengan autentikasi client.
+  Tabel \ref{tbl:auth} memetakan controller auth pada endpoint REST API.
   \begin{longtable}{| p{3.5cm} | p{1.5cm} | p{8cm} |}
-    \caption{Auth Endpoint Table} \\
+    \caption{Auth Endpoint Table} \label{tbl:auth} \\
     \hline
     \textbf{Path} & \textbf{Method} & \textbf{Description} \\
     \hline
@@ -373,10 +372,10 @@ setiap endpoint entity mendukung 4 method http.
     
   \end{longtable}
 
-  \item Pelanggan Endpoint
-  Endpoint ini berhubungan dengan entity pelanggan pada model prisma.
+  \item Pelanggan Endpoint,
+  Tabel \ref{tbl:pelanggan} memetakan controller pelanggan pada endpoint REST API.
   \begin{longtable}{| p{2.5cm} | p{1.5cm} | p{9cm} |}
-    \caption{Pelanggan Endpoint Table} \\
+    \caption{Pelanggan Endpoint Table} \label{tbl:pelanggan} \\
     \hline
     \textbf{Path} & \textbf{Method} & \textbf{Description} \\
     \hline
@@ -403,14 +402,14 @@ setiap endpoint entity mendukung 4 method http.
     \hline
     /pelanggan/\{id\} & PUT  & Endpoint untuk memperbarui akun pelanggan dengan id tertentu \\
     \hline
-    /pelanggan/\{id\} & DELETE  & Endpoint untuk menghapus akun pelanggan dengan id tertentu \\
+    /pelanggan/\{id\} & DELETE  & Endpoint untuk menghapus (disable) akun pelanggan dengan id tertentu \\
     \hline
     
   \end{longtable}
-  \item Karyawan Endpoint
-  Endpoint ini berhubungan dengan entity karyawan pada model prisma.
+  \item Karyawan Endpoint,
+  Tabel \ref{tbl:karyawan} memetakan controller karyawan pada endpoint REST API.
   \begin{longtable}{| p{4.5cm} | p{1.5cm} | p{7cm} |}
-    \caption{Karyawan Endpoint Table} \\
+    \caption{Karyawan Endpoint Table} \label{tbl:karyawan} \\
     \hline
     \textbf{Path} & \textbf{Method} & \textbf{Description} \\
     \hline
@@ -437,17 +436,17 @@ setiap endpoint entity mendukung 4 method http.
     \hline
     /karyawan/\{id\} & PUT  & Endpoint untuk memperbarui akun karyawan dengan id tertentu \\
     \hline
-    /karyawan/\{id\} & DELETE  & Endpoint untuk menghapus akun karyawan dengan id tertentu \\
+    /karyawan/\{id\} & DELETE  & Endpoint untuk menghapus (disable) akun karyawan dengan id tertentu \\
     \hline
     /karyawan/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil seluruh karyawan terdaftar pada aplikasi dan id mitra tertentu \\
     \hline
     
   \end{longtable}
 
-  \item Mitra Endpoint
-  Endpoint mitra
+  \item Mitra Endpoint,
+  Tabel \ref{tbl:mitra} memetakan controller mitra pada endpoint REST API.
   \begin{longtable}{| p{2cm} | p{1.5cm} | p{9.5cm} |}
-    \caption{Mitra Endpoint Table} \\
+    \caption{Mitra Endpoint Table} \label{tbl:mitra} \\
     \hline
     \textbf{Path} & \textbf{Method} & \textbf{Description} \\
     \hline
@@ -474,15 +473,15 @@ setiap endpoint entity mendukung 4 method http.
     \hline
     /mitra/\{id\} & PUT  & Endpoint untuk mengaupdate mitra dengan id tertentu \\
     \hline
-    /mitra/\{id\} & DELETE  & Endpoint untuk menghapus mitra dengan id tertentu \\
+    /mitra/\{id\} & DELETE  & Endpoint untuk menghapus (disable) mitra dengan id tertentu \\
     \hline
     
   \end{longtable}
 
-  \item Produk Endpoint
-  Endpoint produk
+  \item Produk Endpoint,
+  Tabel \ref{tbl:produk} memetakan controller prduk pada endpoint REST API.
   \begin{longtable}{| p{3.5cm} | p{1.5cm} | p{8cm} |}
-    \caption{Produk Endpoint Table} \\
+    \caption{Produk Endpoint Table} \label{tbl:produk} \\
     \hline
     \textbf{Path} & \textbf{Method} & \textbf{Description} \\
     \hline
@@ -509,18 +508,17 @@ setiap endpoint entity mendukung 4 method http.
     \hline
     /produk/\{id\} & PUT  & Endpoint untuk memperbarui produk dengan id tertentu \\
     \hline
-    /produk/\{id\} & DELETE  & Endpoint untuk menghapus produk dengan id tertentu \\
+    /produk/\{id\} & DELETE  & Endpoint untuk menghapus (disable) produk dengan id tertentu \\
     \hline
     /produk/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil produk dari id mitra tertentu \\
     \hline
     
   \end{longtable}
 
-  \item Pesanan Endpoint
-  pesanan endpoint
-
+  \item Pesanan Endpoint,
+  Tabel \ref{tbl:pesanan} memetakan controller pesanan pada endpoint REST API.
   \begin{longtable}{| p{4cm} | p{1.5cm} | p{7.5cm} |}
-    \caption{Pesanan Endpoint Table} \\
+    \caption{Pesanan Endpoint Table} \label{tbl:pesanan} \\
     \hline
     \textbf{Path} & \textbf{Method} & \textbf{Description} \\
     \hline
@@ -547,18 +545,17 @@ setiap endpoint entity mendukung 4 method http.
     \hline
     /pesanan/\{invoice\} & PUT  & Endpoint untuk memperbarui pesanan dengan invoice tertentu \\
     \hline
-    /pesanan/\{invoice\} & DELETE  & Endpoint untuk menghapus pesanan dengan invoice tertentu \\
+    /pesanan/\{invoice\} & DELETE  & Endpoint untuk menghapus (disable) pesanan dengan invoice tertentu \\
     \hline
     /pesanan/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil seluruh pesanan dari id mitra tertentu \\
     \hline
     
   \end{longtable}
 
-  \item OrderList Endpoint
-  Orderlist endpoint
-
+  \item OrderList Endpoint,
+  Tabel \ref{tbl:orderlist} memetakan controller orderlist pada endpoint REST API.
   \begin{longtable}{| p{4cm} | p{1.5cm} | p{7.5cm} |}
-    \caption{OrderList Endpoint Table} \\
+    \caption{OrderList Endpoint Table} \label{tbl:orderlist} \\
     \hline
     \textbf{Path} & \textbf{Method} & \textbf{Description} \\
     \hline
@@ -583,17 +580,17 @@ setiap endpoint entity mendukung 4 method http.
     \hline
     /orderlist/\{id\} & PUT  & Endpoint untuk memperbarui orderlist dengan id tertentu\\
     \hline
-    /orderlist/\{id\} & DELETE  & Endpoint untuk menghapus orderlist dengan id tertentu\\
+    /orderlist/\{id\} & DELETE  & Endpoint untuk menghapus (disable) orderlist dengan id tertentu\\
     \hline
     /orderlist/invoice/\{invoice\} & GET  & Endpoint untuk mengambil orderlist dengan invoice pesanan tertentu\\
     \hline
     
   \end{longtable}
 
-  \item Antrian Endpoint
-  Antrian endpoint
+  \item Antrian Endpoint,
+  Tabel \ref{tbl:antrian} memetakan controller antrian pada endpoint REST API.
   \begin{longtable}{| p{4cm} | p{1.5cm} | p{7.5cm} |}
-    \caption{Antrian Endpoint Table} \\
+    \caption{Antrian Endpoint Table} \label{tbl:antrian} \\
     \hline
     \textbf{Path} & \textbf{Method} & \textbf{Description} \\
     \hline
@@ -618,17 +615,17 @@ setiap endpoint entity mendukung 4 method http.
     \hline
     /antrian/\{id\} & PUT  & Endpoint untuk memperbarui antrian dengan id tertentu \\
     \hline
-    /antrian/\{id\} & DELETE  &  Endpoint untuk menghapus antrian dengan id tertentu \\
+    /antrian/\{id\} & DELETE  &  Endpoint untuk menghapus (disable) antrian dengan id tertentu \\
     \hline
     /antrian/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil antrian pada mitra tertentu \\
     \hline
     
   \end{longtable}
 
-  \item Reviews Endpoint
-  Reviews endpoint
+  \item Reviews Endpoint,
+  Tabel \ref{tbl:review} memetakan controller review pada endpoint REST API.
   \begin{longtable}{| p{5cm} | p{1.5cm} | p{6.5cm} |}
-    \caption{Reviews Endpoint Table} \\
+    \caption{Reviews Endpoint Table} \label{tbl:review} \\
     \hline
     \textbf{Path} & \textbf{Method} & \textbf{Description} \\
     \hline
@@ -656,15 +653,15 @@ setiap endpoint entity mendukung 4 method http.
     \hline
     /reviews/\{mitraId\}/\{pelangganId\} & PUT  & Endpoint untuk memperbarui review pelanggan pada mitra tertentu \\
     \hline
-    /reviews/\{mitraId\}/\{pelangganId\} & DELETE  & ndpoint untuk menghapus review pelanggan pada mitra tertentu\\
+    /reviews/\{mitraId\}/\{pelangganId\} & DELETE  & Endpoint untuk menghapus review pelanggan pada mitra tertentu\\
     \hline
     
   \end{longtable}
 
-  \item Image server endpoint
-  endpoint berikut untuk menyajikan gambar ke client
+  \item Image server endpoint,
+  endpoint pada tabel \ref{tbl:imageserver} untuk menyajikan gambar ke client melalui REST API.
   \begin{longtable}{| p{3cm} | p{1.5cm} | p{8.5cm} |}
-    \caption{Image server Endpoint Table} \\
+    \caption{Image server Endpoint Table} \label{tbl:imageserver} \\
     \hline
     \textbf{Path} & \textbf{Method} & \textbf{Description} \\
     \hline
@@ -687,6 +684,8 @@ setiap endpoint entity mendukung 4 method http.
     
   \end{longtable}
 \end{enumerate}
+
+\subsection{Kesesuaian dengan Functional Requirement}
 
 \subsection{Alur Pengujian}
 Pengujian menggunakan metode white box testing yaitu unit testing. Testing dilakukan pada setiap fungsi yang telah dibuat tanpa terhubung ke komponen lain. Setelah semua fungsi lulus unit testing, dilakukan performance dan load testing menggunakan library K6 pada node.js untuk mnegukur performansi aplikasi. Environment Testing menggunakan lokal build pada laptop penulis dan menggunakan tunnelling Cloudflare untuk mengukur performa network dan cpu load nya. Diagram alur pengujian dapat dilihat pada gambar \ref{alur-testing}.
@@ -723,9 +722,34 @@ Pengujian dimulai dengan membuat file yang bernama <component>.spec.ts seperti t
 });
 \end{lstlisting}
 
+\subsubsection{Performance Testing \& Stress Testing}
+Pengujian performa dilakukan menggunakan K6 dengan cara melakukan request secara konkuren berdasarkan VU (Virtual User) yang di spesifikasikan. Pada listing \ref{lst:k6-thresh}, penulis mendefinisikan VU sebanyak 10, dengan stages pada detik 10 harus terdapat 100 VU yang melakukan, dan detik 20 terdapat 200 VU yang melakukan request, ini mengakibatkan fungsi akan menambah VU secara dinamis dalam 1 testing. Penulis juga mendefinisikan Request blocked tidak boleh lebih dari 30 milisecond, request connecting tidak boleh selama 100 milisecond untuk 90\% request, durasi request tidak lebih dari 1 detik untuk 90\% request, dan rate kegagalan request kurang dari 0,1\%.
+\begin{lstlisting}[caption={Konfigurasi dan threshold yang perlu dicapai pada K6},label={lst:k6-thresh}]
+  export const options = {
+    vus: 10,
+    thresholds: {
+      http_req_blocked: ['p(100)<=30'],
+      http_req_connecting: ['p(90)<100'],
+      http_req_duration: ['p(90)<1000'],
+      http_req_failed: ['rate<0.1'],
+      http_req_receiving: ['p(90)<50'],
+      http_req_sending: ['p(90)<10'],
+    },
+    tags: {
+      environment: 'production',
+    },
+    stages: [
+      { duration: '10s', target: 100 },
+      { duration: '20s', target: 200 },
+    ],
+  };
+\end{lstlisting}
+
+\newpage
+
 \subsection{Deployment}
-Ketika backend selesai di develope dan siap dipakai maka akan dilakukan deployment.
-Pada diagram \ref{deployment} menjelaskan bagaimana server backend berkomunikasi dengan Aplikasi lain melalui protokol HTTPS. 
+Ketika backend selesai di kembangkan dan siap dipakai maka akan dilakukan deployment.
+Pada diagram \ref{deployment} menjelaskan bagaimana server backend berkomunikasi dengan Aplikasi lain melalui protokol HTTPS dan memiliki database pusat yaitu di backend untuk sinkronisasi data dari satu aplikasi ke aplikasi lain. 
 
 \begin{figure}[h]
 	{\centering {\includegraphics[scale=0.6]{drawio/deployment.jpg}}\par}
@@ -738,7 +762,8 @@ Pada diagram \ref{deployment} menjelaskan bagaimana server backend berkomunikasi
 \section{Evaluasi}
 
 \subsection{Hasil Pengujian}
- Terdapat 2 Test suite pada setiap entity kecuali auth dimana auth memiliki 3 test suite yang ditotal sebanyak 21 test suite yang perlu dibuat dan dilakukan.
+\subsubsection{Unit Testing}
+ Untuk unit testing, terdapat 2 Test suite pada setiap entity kecuali auth dimana auth memiliki 3 test suite yang ditotal sebanyak 21 test suite yang perlu dibuat dan dilakukan.
 
 \begin{figure}[h]
 	{\centering {\includegraphics[scale=0.8]{drawio/unitTesting.png}}\par}
@@ -754,16 +779,60 @@ Pada diagram \ref{deployment} menjelaskan bagaimana server backend berkomunikasi
 
 \newpage
 
-\subsection{Analisis Hasil Pengujian}
- Analisis merupakan salah satu bagian yang penting untuk TA. Pada TA S1 tidak dituntut untuk mendapatkan hasil performasi yang lebih bagus dibandingkan dengan baseline yang populer, yang dituntut adalah membuat analisis yang lengkap. Menganalisis pengaruh kondisi-kondisi yang berbeda (seperti parameter, jenis data, threshold, dan sub-sistem) yang digunakan.
- 
- Cara sitasi adalah sebagai berikut: \citep{van2002fundamentals} untuk buku, \citep{ochoa2003hybrid} untuk \textit{paper}, dan \citep{Budi} untuk website.
-   
-   
-\section{Kesimpulan}
- \noindent Bagian Kesimpulan memuat kesimpulan dan Saran (\textit{Future Work}), bisa dituliskan dalam poin-poin ataupun paragraf-paragraf. Semua poin kesimpulan diambil dari hasil pengujian dan analisis hasil pengujian sehingga tidak ada kesimpulan dari teori ataupun nalar semata. Sebagaimana sudah disebutkan pada bagian sebelumnya, pengujian dan analisis harus sesuai dengan tujuan TA. Jadi kesimpulan-kesimpulan yang dituliskan selaras dengan seluruh tujuan TA. 
- 
+\subsubsection{Performance Testing}
+Pada bagian performance testing, saya menguji beberapa fitur yang mewakili method HTTP GET, POST, dan PUT. Untuk GET saya menguji fungsi untuk mengambil seluruh mitra, untuk POST saya menguji fungsi untuk Register user, untuk PUT saya menguji fungsi update user.
 
+\begin{figure}[H]
+	{\centering {\includegraphics[scale=0.65]{drawio/register-test.png}}\par}
+	\caption{Hasil performance testing untuk register user (POST)}
+	\label{register-testing}
+\end{figure}
+
+\begin{figure}[H]
+	{\centering {\includegraphics[scale=0.65]{drawio/login-test.png}}\par}
+	\caption{Hasil performance testing untuk login user (POST)}
+	\label{login-testing}
+\end{figure}
+
+\begin{figure}[H]
+	{\centering {\includegraphics[scale=0.65]{drawio/mitra-test.png}}\par}
+	\caption{Hasil performance testing get semua mitra (GET)}
+	\label{mitra-testing}
+\end{figure}
+
+\begin{figure}[H]
+	{\centering {\includegraphics[scale=0.6]{drawio/mitra-id-test.png}}\par}
+	\caption{Hasil performance testing get mitra berdasar id (GET)}
+	\label{mitra-id-testing}
+\end{figure}
+
+\begin{figure}[H]
+	{\centering {\includegraphics[scale=0.6]{drawio/update-user-test.png}}\par}
+	\caption{Hasil performance testing update user berdasar id (PUT)}
+	\label{update-user-testing}
+\end{figure}
+
+\newpage
+
+
+\subsection{Analisis Hasil Pengujian}
+\subsubsection{Unit Testing}
+Semua test case pada unit testing lolos uji atau pass dengan code coverage 96,32\% dengan LOC (Line Of Code) sekitar 524 dari 544 LOC. Jika dilihat pada gambar \ref{unit-testing} LOC yang tidak teruji terdapat pada file karyawan, mitra, pelanggan, dan produk. Kode yang tidak teruji berupa interceptor untuk mendeteksi file gambar pada multipart request, fungsi tersebut tidak dapat diuji pada unit testing dikarenakan perlunya request autentik multipart dan tidak bisa di simulasikan secara efektif.
+
+\subsubsection{Performance Testing}
+Performance testing berfungsi untuk melihat seberapa kuat backend untuk melayani banyak request dalam secara bersamaan. Dilihat dari hasil testing ada beberapa hal yang ditemukan. Dari 5 Testing, 2 diantaranya belum memenuhi spesifikasi yang telah ditetapkan. Pada gambar \ref{login-testing} menampilkan hasil testing dari fungsi login user. Tertulis rata rata durasi sebesar 3 detik dengan delay terendah berada di 126 milisecond dan delay tertinggi berada di 6 detik. Lalu pada gambar \ref{register-testing} memiliki hasil yang mirip dengan fungsi login. Kedua fungsi tersebut merupakan fungsi dengan method HTTP POST. Untuk testing yang memenuhi kriteria, 2 diantaranya menggunakan method HTTP GET. Pada fungsi get all mitra pada gambar \ref{mitra-testing}, rata-rata delay yang didapatkan tidak lambat yaitu sebesar 9,7 milisecond, sedangkan untuk get mitra by id pada gambar \ref{mitra-id-testing} sebesar 5 milisecond. Untuk fungsi terakhir yaitu update user by id pada gambar \ref{update-user-testing}, rata-rata duration yang di dapat sebesar 30 milisecond.
+
+\section{Kesimpulan}
+Berdasarkan hasil penelitian dan implementasi yang telah dilakukan, beberapa kesimpulan yang dapat diambil
+adalah sebagai berikut:
+\subsection{Penggunaan Framework NestJS}
+\subsection{Penggunaan Prisma ORM}
+\subsection{Anti Pattern}
+\subsection{Keamanan}
+\subsection{Performa}
+\subsection{Maintainabilitas}
+
+\newpage
 
 \bibliographystyle{abbrv}
 \bibliography{references}
