@@ -723,7 +723,7 @@ Pengujian dimulai dengan membuat file yang bernama <component>.spec.ts seperti t
 \end{lstlisting}
 
 \subsubsection{Performance Testing \& Stress Testing}
-Pengujian performa dilakukan menggunakan K6 dengan cara melakukan request secara konkuren berdasarkan VU (Virtual User) yang di spesifikasikan. Pada listing \ref{lst:k6-thresh}, penulis mendefinisikan VU sebanyak 10, dengan stages pada detik 10 harus terdapat 100 VU yang melakukan, dan detik 20 terdapat 200 VU yang melakukan request, ini mengakibatkan fungsi akan menambah VU secara dinamis dalam 1 testing. Penulis juga mendefinisikan Request blocked tidak boleh lebih dari 30 milisecond, request connecting tidak boleh selama 100 milisecond untuk 90\% request, durasi request tidak lebih dari 1 detik untuk 90\% request, dan rate kegagalan request kurang dari 0,1\%.
+Pengujian performa dilakukan menggunakan K6 dengan cara melakukan request secara konkuren berdasarkan VU (Virtual User) yang di spesifikasikan. Pada listing \ref{lst:k6-thresh}, penulis mendefinisikan VU sebanyak 10, dengan stages pada detik 10 harus terdapat 100 VU yang melakukan, dan detik 20 terdapat 200 VU yang melakukan request, ini mengakibatkan fungsi akan menambah VU secara dinamis dalam 1 testing. Penulis juga mendefinisikan Request blocked tidak boleh lebih dari 30 milisecond, request connecting tidak boleh selama 100 milisecond untuk 90\% request, durasi request tidak lebih dari 1 detik untuk 90\% request, dan rate kegagalan request kurang dari 0,1\% \cite{nah2004study}.
 \begin{lstlisting}[caption={Konfigurasi dan threshold yang perlu dicapai pada K6},label={lst:k6-thresh}]
   export const options = {
     vus: 10,
@@ -820,17 +820,49 @@ Pada bagian performance testing, saya menguji beberapa fitur yang mewakili metho
 Semua test case pada unit testing lolos uji atau pass dengan code coverage 96,32\% dengan LOC (Line Of Code) sekitar 524 dari 544 LOC. Jika dilihat pada gambar \ref{unit-testing} LOC yang tidak teruji terdapat pada file karyawan, mitra, pelanggan, dan produk. Kode yang tidak teruji berupa interceptor untuk mendeteksi file gambar pada multipart request, fungsi tersebut tidak dapat diuji pada unit testing dikarenakan perlunya request autentik multipart dan tidak bisa di simulasikan secara efektif.
 
 \subsubsection{Performance Testing}
-Performance testing berfungsi untuk melihat seberapa kuat backend untuk melayani banyak request dalam secara bersamaan. Dilihat dari hasil testing ada beberapa hal yang ditemukan. Dari 5 Testing, 2 diantaranya belum memenuhi spesifikasi yang telah ditetapkan. Pada gambar \ref{login-testing} menampilkan hasil testing dari fungsi login user. Tertulis rata rata durasi sebesar 3 detik dengan delay terendah berada di 126 milisecond dan delay tertinggi berada di 6 detik. Lalu pada gambar \ref{register-testing} memiliki hasil yang mirip dengan fungsi login. Kedua fungsi tersebut merupakan fungsi dengan method HTTP POST. Untuk testing yang memenuhi kriteria, 2 diantaranya menggunakan method HTTP GET. Pada fungsi get all mitra pada gambar \ref{mitra-testing}, rata-rata delay yang didapatkan tidak lambat yaitu sebesar 9,7 milisecond, sedangkan untuk get mitra by id pada gambar \ref{mitra-id-testing} sebesar 5 milisecond. Untuk fungsi terakhir yaitu update user by id pada gambar \ref{update-user-testing}, rata-rata duration yang di dapat sebesar 30 milisecond.
+Performance testing berfungsi untuk melihat seberapa kuat backend untuk melayani banyak request dalam secara bersamaan. Dilihat dari hasil testing ada beberapa hal yang ditemukan. Dari 5 Testing, 2 diantaranya belum memenuhi spesifikasi yang telah ditetapkan. Pada gambar \ref{login-testing} menampilkan hasil testing dari fungsi login user. Tertulis rata rata durasi sebesar 3 detik dengan delay terendah berada di 126 milisecond dan delay tertinggi berada di 6 detik, hal ini diakibatkan oleh fungsi login yang membanding satu string password dengan versi bcrypt, dengan cara string password di enkripsi terlebih dahulu lalu di bandingkan, hal ini memakan waktu yang mengakibatkan delay tinggi saat server over capacity. Lalu pada gambar \ref{register-testing} memiliki hasil yang mirip dengan fungsi login, hal ini dikarenakan fungsi register melakukan insert database dimana pada orm Prisma sedikit lebih lambat dibanding edit dan view data. Pada fungsi get all mitra pada gambar \ref{mitra-testing}, rata-rata delay yang didapatkan tidak lambat yaitu sebesar 9,7 milisecond, sedangkan untuk get mitra by id pada gambar \ref{mitra-id-testing} sebesar 5 milisecond. Untuk fungsi terakhir yaitu update user by id pada gambar \ref{update-user-testing}, rata-rata duration yang di dapat sebesar 30 milisecond.
+
 
 \section{Kesimpulan}
-Berdasarkan hasil penelitian dan implementasi yang telah dilakukan, beberapa kesimpulan yang dapat diambil
-adalah sebagai berikut:
-\subsection{Penggunaan Framework NestJS}
-\subsection{Penggunaan Prisma ORM}
-\subsection{Anti Pattern}
-\subsection{Keamanan}
-\subsection{Performa}
-\subsection{Maintainabilitas}
+
+Berdasarkan implementasi dan perancangan sistem menggunakan NestJs dan Prisma, dapat diambil beberapa kesimpulan terkait Anti Pattern, Keamanan, Maintainabilitas, dan Performa.
+\begin{enumerate}
+  \item \textbf{Anti Pattern}\newline
+  Penting untuk menghindari Anti Pattern dalam pengembangan aplikasi, yaitu praktik yang tidak dianjurkan atau kesalahan umum yang sering dilakukan. Dalam sistem yang dikembangkan, beberapa langkah yang diambil untuk menghindari Anti Pattern meliputi:
+  \begin{itemize}
+    \item \textbf{Consistent Endpoint Naming}: Penamaan endpoint mengikuti nama entity pada model, sehingga memudahkan pengembangan dan pemahaman API.
+    \item \textbf{Separation of Concerns}: Memisahkan setiap komponen dalam aplikasi (Middleware, Guards, Interceptor, Controller, dan Service) sesuai dengan tanggung jawab masing-masing.
+    \item \textbf{Avoiding Over-fetching and Under-fetching}: Endpoint API dirancang untuk menghindari pengambilan data yang berlebihan atau kurang, sesuai dengan kebutuhan aplikasi.
+  \end{itemize}
+  \item \textbf{keamanan}\newline
+  Keamanan adalah aspek penting dalam pengembangan aplikasi, beberapa langkah yang diambil untuk memastikan keamanan sistem meliputi:
+  \begin{itemize}
+    \item \textbf{JWT Authentication}: Penggunaan JWT untuk otentikasi dan otorisasi pengguna, memastikan hanya pengguna yang valid dapat mengakses endpoint tertentu.
+    \item \textbf{Data Validation}: Validasi data pada setiap layer (Controller, Service) untuk memastikan integritas dan keamanan data.
+    \item \textbf{Encryption}: Penggunaan bcrypt untuk meng-hash password pengguna sebelum disimpan di database.
+  \end{itemize}
+  \item \textbf{Maintainabilitas}\newline
+  Maintainabilitas adalah kemampuan sistem untuk dapat dipelihara dan dikembangkan lebih lanjut dengan mudah dengan cara menggunakan Prisma sebagai ORM untuk manajemen database yang lebih mudah dan terstruktur.
+\end{enumerate}
+
+\subsection{Saran}
+Untuk meningkatkan performa dan skalabilitas sistem, terdapat beberapa hal yang perlu diperhatikan dan ditingkatkan, antara lain:
+\begin{enumerate}
+  \item \textbf{Performa} \newline
+  \begin{itemize}
+    \item \textbf{Optimasi Query Database}: Lakukan analisis dan optimasi query yang digunakan untuk memastikan performa yang lebih baik. Penggunaan indeks yang tepat pada tabel-tabel penting dapat meningkatkan kecepatan akses data.
+    \item \textbf{Implementasi Caching yang Lebih Lanjut}: Integrasikan mekanisme caching yang lebih canggih, seperti Redis, untuk menyimpan hasil query yang sering digunakan dan mengurangi beban pada database.
+    \item \textbf{Profiling dan Monitoring}: Gunakan alat profiling dan monitoring untuk mengidentifikasi dan memperbaiki bottleneck dalam aplikasi. Alat seperti New Relic atau Grafana dapat membantu dalam memantau performa sistem secara real-time.
+  \end{itemize}
+  \item \textbf{Skalabilitas} \newline
+  \begin{itemize}
+    \item \textbf{Horizontal Scaling}: Pertimbangkan untuk menambah jumlah instance aplikasi dan menggunakan load balancer untuk mendistribusikan beban secara merata. Ini dapat membantu mengatasi lonjakan lalu lintas dan memastikan aplikasi tetap responsif.
+    \item \textbf{Microservices Architecture}: Pertimbangkan untuk memecah aplikasi menjadi beberapa layanan mikro yang independen. Hal ini dapat meningkatkan skalabilitas dan memudahkan pengembangan serta pemeliharaan setiap komponen.
+    \item \textbf{Kubernetes and Containerization}: Gunakan teknologi container seperti Docker dan orkestrator container seperti Kubernetes untuk memudahkan pengelolaan dan skala aplikasi. Teknologi ini memungkinkan aplikasi dijalankan di berbagai lingkungan dengan konsistensi yang tinggi.
+    \item \textbf{Auto-scaling}: Implementasikan mekanisme auto-scaling untuk menyesuaikan jumlah instance aplikasi berdasarkan beban kerja saat itu. Hal ini memastikan penggunaan sumber daya yang efisien dan kemampuan aplikasi untuk menangani beban yang meningkat.
+  \end{itemize}
+\end{enumerate}
+Dengan meningkatkan aspek-aspek ini, sistem diharapkan dapat beroperasi dengan lebih efisien dan mampu menangani pertumbuhan pengguna dan data di masa mendatang.
 
 \newpage
 
