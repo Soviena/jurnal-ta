@@ -686,7 +686,7 @@ setiap endpoint entity mendukung 4 method http yaitu POST, GET, PUT, dan DELETE.
 \end{enumerate}
 
 \subsection{Alur Pengujian}
-Pengujian menggunakan metode white box testing yaitu unit testing. Testing dilakukan pada setiap fungsi yang telah dibuat tanpa terhubung ke komponen lain. Setelah semua fungsi lulus unit testing, dilakukan performance dan load testing menggunakan library K6 pada node.js untuk mnegukur performansi aplikasi. Environment Testing menggunakan lokal build pada laptop penulis dan menggunakan tunnelling Cloudflare untuk mengukur performa network dan cpu load nya. Diagram alur pengujian dapat dilihat pada gambar \ref{alur-testing}.
+Pengujian menggunakan metode white box testing yaitu unit testing. Testing dilakukan pada setiap fungsi yang telah dibuat tanpa terhubung ke komponen lain. Setelah semua fungsi lulus unit testing, dilakukan performance dan load testing menggunakan library K6 pada node.js untuk mnegukur performansi aplikasi. Environment Testing menggunakan local build pada laptop penulis. Diagram alur pengujian dapat dilihat pada gambar \ref{alur-testing}.
 
 \begin{figure}[h]
 	{\centering {\includegraphics[scale=0.75]{drawio/alur-testing.png}}\par}
@@ -695,7 +695,7 @@ Pengujian menggunakan metode white box testing yaitu unit testing. Testing dilak
 \end{figure}
 
 \subsubsection{Unit Testing}
-Pengujian dimulai dengan membuat file yang bernama <component>.spec.ts seperti terlihat pada gambar \ref{ut1}. Lalu pada file tersebut penulis mendeskripsikan test apa yang akan dibuat seperti contoh pada listing \ref{lst:jest-testing}, pertama difinisikan parameter yang diperlukan function lalu expect hasil keluaran fungsi sesuai dengan yang ditentukan.
+Pengujian dimulai dengan membuat file yang bernama component.spec.ts seperti terlihat pada gambar \ref{ut1}. Lalu pada file tersebut penulis mendeskripsikan test apa yang akan dibuat seperti contoh pada listing \ref{lst:jest-testing}, pertama difinisikan parameter yang diperlukan function lalu expect hasil keluaran fungsi sesuai dengan yang ditentukan.
 \begin{figure}[h]
 	{\centering {\includegraphics[scale=1]{drawio/unit-testing1.png}}\par}
 	\caption{File spec.ts}
