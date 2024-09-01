@@ -24,10 +24,10 @@ $^1$rovino@students.telkomuniversity.ac.id, $^2$mirakarnia@telkomuniversity.ac.i
    
  %%% Abstrak Indonesia %%%%%%%%%%  
    
-{\bf \parindent0pt \noindent\rule{\textwidth}{1pt}
+{\bf \parindent0pt \noindent\rule{\textwidth}{1pt}}
 Abstrak
 
-Populasi penduduk yang tinggi di Indonesia mengakibatkan antrian panjang dalam berbagai pelayanan publik atau pelayanan konsumen. Pelanggan harus datang ke tempat untuk mengambil antrian dan menunggu gilirannya, semakin panjang antrian, semakin lama waktu tunggu yang dibutuhkan. Hal ini tidak efisien dan menyebabkan banyak waktu terbuang hanya untuk menunggu antrian. Jika nomor antrian bisa didapatkan secara online dan dapat dipantau secara online, maka dapat mengurangi waktu yang terbuang. Dengan aplikasi antrian virtual dapat memperpendek antrian secara fisik, dengan cara antri secara virtual, melihat antrian yang sedang berjalan, dan booking tempat. Pada Pengembangan aplikasi ini, framework yang digunakan adalah NestJS dan PrismaJS dengan menerapkan RESTful API, Object Relational Mapping, dan menghindari Anti-Pattern. Framework NestJS mendukung pembuatan aplikasi ber-arsitektur monolitik dan \textit{microservice}. Setelah aplikasi dibangun di arsitektur monolitik, aplikasi dapat dengan mudah dimigrasikan ke \textit{microservice} saat penggunaan aplikasi sudah hampir mendekati batas muat pengguna.\\
+Populasi penduduk yang tinggi di Indonesia mengakibatkan antrian panjang dalam berbagai pelayanan publik atau pelayanan konsumen. Pelanggan harus datang ke tempat untuk mengambil antrian dan menunggu gilirannya, semakin panjang antrian, semakin lama waktu tunggu yang dibutuhkan. Hal ini tidak efisien dan menyebabkan banyak waktu terbuang hanya untuk menunggu antrian. Jika nomor antrian bisa didapatkan secara online dan dapat dipantau secara online, maka dapat mengurangi waktu yang terbuang. Dengan aplikasi antrian virtual dapat memperpendek antrian secara fisik, dengan cara antri secara virtual, melihat antrian yang sedang berjalan, dan booking tempat. Pada Pengembangan aplikasi ini, framework yang digunakan adalah NestJS dan PrismaJS dengan menerapkan RESTful API, Object Relational Mapping, dan menghindari Anti-Pattern. Framework NestJS mendukung pembuatan aplikasi ber-arsitektur monolitik dan \textit{microservice}. Setelah aplikasi dibangun di arsitektur monolitik, aplikasi dapat dengan mudah dimigrasikan ke \textit{microservice} saat penggunaan aplikasi sudah hampir mendekati batas muat pengguna.
 
  \bigskip
 Kata kunci : NestJS, PrismaJS, Anti-Pattern, Antrian, Backend, REST
@@ -46,8 +46,7 @@ The high population in Indonesia results in long queues in various public servic
  \bigskip
  Keywords: NestJS, PrismaJS, Anti-Pattern, Queue, Backend, REST
 
-\noindent\rule{\textwidth}{1pt} }
-   
+\noindent\rule{\textwidth}{1pt}
 
 
 %%%%%% isi paper %%%%
@@ -436,7 +435,7 @@ setiap endpoint entity mendukung 4 method http yaitu POST, GET, PUT, dan DELETE.
     \hline
     /karyawan/\{id\} & PUT  & Endpoint untuk memperbarui akun karyawan dengan id tertentu \\
     \hline
-    /karyawan/\{id\} & DELETE  & Endpoint untuk menghapus (disable) akun karyawan dengan id tertentu \\
+    /karyawan/\{id\} & DELETE  & Endpoint untuk disable akun karyawan dengan id tertentu \\
     \hline
     /karyawan/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil seluruh karyawan terdaftar pada aplikasi dan id mitra tertentu \\
     \hline
@@ -510,7 +509,7 @@ setiap endpoint entity mendukung 4 method http yaitu POST, GET, PUT, dan DELETE.
     \hline
     /produk/\{id\} & DELETE  & Endpoint untuk menghapus (disable) produk dengan id tertentu \\
     \hline
-    /produk/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil produk dari id mitra tertentu \\
+    /produk/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil produk dari id mitra \\
     \hline
     
   \end{longtable}
@@ -582,7 +581,7 @@ setiap endpoint entity mendukung 4 method http yaitu POST, GET, PUT, dan DELETE.
     \hline
     /orderlist/\{id\} & DELETE  & Endpoint untuk menghapus (disable) orderlist dengan id tertentu\\
     \hline
-    /orderlist/invoice/\{invoice\} & GET  & Endpoint untuk mengambil orderlist dengan invoice pesanan tertentu\\
+    /orderlist/invoice/\{invoice\} & GET  & Endpoint untuk mengambil orderlist dengan invoice\\
     \hline
     
   \end{longtable}
@@ -649,11 +648,11 @@ setiap endpoint entity mendukung 4 method http yaitu POST, GET, PUT, dan DELETE.
     \hline
     /reviews/mitra/\{mitraId\} & GET  & Endpoint untuk mengambil review pada mitra tertentu \\
     \hline
-    /reviews/\{mitraId\}/\{pelangganId\} & GET  & Endpoint untuk mengambil review pelanggan pada mitra tertentu \\
+    /reviews/\{mitraId\}/\{pelangganId\} & GET  & Endpoint untuk mengambil review pelanggan pada mitra\\
     \hline
-    /reviews/\{mitraId\}/\{pelangganId\} & PUT  & Endpoint untuk memperbarui review pelanggan pada mitra tertentu \\
+    /reviews/\{mitraId\}/\{pelangganId\} & PUT  & Endpoint untuk memperbarui review pelanggan pada mitra \\
     \hline
-    /reviews/\{mitraId\}/\{pelangganId\} & DELETE  & Endpoint untuk menghapus review pelanggan pada mitra tertentu\\
+    /reviews/\{mitraId\}/\{pelangganId\} & DELETE  & Endpoint untuk menghapus review pelanggan pada mitra\\
     \hline
     
   \end{longtable}
