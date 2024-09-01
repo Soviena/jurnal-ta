@@ -719,7 +719,7 @@ Pengujian dimulai dengan membuat file yang bernama component.spec.ts seperti ter
   });
 });
 \end{lstlisting}
-\subsubsection{maintainability Testing}
+\subsubsection{Maintainability Testing}
 Pengujian terhadap aspek \textit{maintainability} dari perangkat lunak dilakukan dengan menggunakan alat analisis statis bernama \textit{SonarQube}. Alat ini memberikan penilaian berupa indeks rating yang dikategorikan dalam tingkatan A, B, C, D, dan E, yang masing-masing mencerminkan tingkat kualitas dari tiga aspek utama, yaitu \textit{Security} (keamanan), \textit{Reliability} (keandalan), dan \textit{maintainability} (kemudahan pemeliharaan). Tingkatan A menunjukkan kualitas terbaik, sedangkan E menunjukkan kualitas terendah. Dengan menggunakan \textit{SonarQube}, penulis dapat mengidentifikasi area dalam kode yang memerlukan perbaikan untuk meningkatkan kualitas perangkat lunak secara keseluruhan.
 
 
@@ -780,7 +780,7 @@ Pada diagram \ref{deployment} menjelaskan bagaimana server backend berkomunikasi
 
 \newpage
 
-\subsubsection{maintainability Testing}
+\subsubsection{Maintainability Testing}
 Pada bagian ini, penulis melakukan pengujian menggunakan \textit{SonarQube} dan \textit{Sonar Scanner} untuk menganalisis kode program yang telah dibuat. Proses analisis ini bertujuan untuk mengevaluasi kualitas kode dengan mengidentifikasi potensi masalah dalam aspek \textit{Security}, \textit{Reliability}, dan \textit{maintainability}. Setelah analisis selesai, \textit{SonarQube} memberikan skor indeks yang mencerminkan tingkat kualitas kode dalam kategori-kategori tersebut. Skor ini membantu penulis memahami area mana yang perlu ditingkatkan untuk memastikan kode yang lebih aman, andal, dan mudah dipelihara.
 \begin{figure}[H]
 	{\centering {\includegraphics[scale=0.5]{drawio/maintainability-1.png}}\par}
@@ -836,7 +836,7 @@ Semua test case pada unit testing lolos uji atau pass dengan code coverage 96,32
 \subsubsection{Performance Testing}
 Performance testing berfungsi untuk melihat seberapa kuat backend untuk melayani banyak request dalam secara bersamaan. Dilihat dari hasil testing ada beberapa hal yang ditemukan. Dari 5 Testing, 2 diantaranya belum memenuhi spesifikasi yang telah ditetapkan. Pada gambar \ref{login-testing} menampilkan hasil testing dari fungsi login user. Tertulis rata rata durasi sebesar 3 detik dengan delay terendah berada di 126 milisecond dan delay tertinggi berada di 6 detik, hal ini diakibatkan oleh fungsi login yang membanding satu string password dengan versi bcrypt, dengan cara string password di enkripsi terlebih dahulu lalu di bandingkan, hal ini memakan waktu yang mengakibatkan delay tinggi saat server over capacity. Lalu pada gambar \ref{register-testing} memiliki hasil yang mirip dengan fungsi login, hal ini dikarenakan fungsi register melakukan insert database dimana pada orm Prisma sedikit lebih lambat dibanding edit dan view data. Pada fungsi get all mitra pada gambar \ref{mitra-testing}, rata-rata delay yang didapatkan tidak lambat yaitu sebesar 9,7 milisecond, sedangkan untuk get mitra by id pada gambar \ref{mitra-id-testing} sebesar 5 milisecond. Untuk fungsi terakhir yaitu update user by id pada gambar \ref{update-user-testing}, rata-rata duration yang di dapat sebesar 30 milisecond.
 
-\subsubsection{maintainability Testing}
+\subsubsection{Maintainability Testing}
 Pada gambar \ref{maintainability-testing-1} menunjukkan hasil analisis dari SonarQube bahwa kualitas kode secara keseluruhan memenuhi standar yang ditetapkan. Namun, ada beberapa area yang perlu diperhatikan terkait \textit{maintainability}. Persentase \textit{Duplications} adalah 12.9\%, yang menunjukkan adanya duplikasi kode dalam 5.9k baris kode. Meskipun ini tidak secara langsung mempengaruhi \textit{maintainability} dalam skala besar, pengurangan duplikasi dapat meningkatkan kualitas kode secara keseluruhan. Pada aspek \textit{maintainability}, SonarQube memberikan penilaian A, yang menunjukkan tingkat maintainability yang baik. Namun, pada gambar \ref{maintainability-testing-2}, ada satu isu khusus yang perlu diperbaiki: fungsi \texttt{createPesanan}. Fungsi ini memiliki \textit{Cognitive Complexity} sebesar 16, yang melebihi batas yang diizinkan yaitu 15. Untuk meningkatkan \textit{maintainability}, disarankan untuk merestrukturisasi fungsi ini agar \textit{Cognitive Complexity} dapat dikurangi, sehingga mempermudah pemahaman dan pemeliharaan kode di masa depan.
 \section{Kesimpulan}
 
