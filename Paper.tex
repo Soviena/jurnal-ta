@@ -685,7 +685,7 @@ setiap endpoint entity mendukung 4 method http yaitu POST, GET, PUT, dan DELETE.
 \end{enumerate}
 
 \subsection{Alur Pengujian}
-Pengujian menggunakan metode white box testing yaitu unit testing. Testing dilakukan pada setiap fungsi yang telah dibuat tanpa terhubung ke komponen lain. Setelah semua fungsi lulus unit testing, dilakukan performance dan load testing menggunakan library K6 pada node.js untuk mnegukur performansi aplikasi. Environment Testing menggunakan local build pada laptop penulis. Diagram alur pengujian dapat dilihat pada gambar \ref{alur-testing}.
+Pengujian menggunakan metode white box testing yaitu unit testing. Testing dilakukan pada setiap fungsi yang telah dibuat tanpa terhubung ke komponen lain. Setelah semua fungsi lulus unit testing, dilakukan analisis statis menggunakan SonarQube untuk mengetahui indeks Maintainability, Reliability, dan Security. Lalu dilakukan performance dan load testing menggunakan library K6 pada node.js untuk mengukur performansi aplikasi. Environment Testing menggunakan local build pada laptop penulis. Diagram alur pengujian dapat dilihat pada gambar \ref{alur-testing}.
 
 \begin{figure}[h]
 	{\centering {\includegraphics[scale=0.75]{drawio/alur-testing.png}}\par}
