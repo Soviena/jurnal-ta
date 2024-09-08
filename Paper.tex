@@ -26,7 +26,7 @@ $^1$rovino@students.telkomuniversity.ac.id, $^2$mirakarnia@telkomuniversity.ac.i
 {\bf \parindent0pt \noindent\rule{\textwidth}{1pt}}
 Abstrak
 
-Populasi penduduk yang tinggi di Indonesia mengakibatkan antrian panjang dalam berbagai pelayanan publik atau pelayanan konsumen. Pelanggan harus datang ke tempat untuk mengambil antrian dan menunggu gilirannya, semakin panjang antrian, semakin lama waktu tunggu yang dibutuhkan. Hal ini tidak efisien dan menyebabkan banyak waktu terbuang hanya untuk menunggu antrian. Jika nomor antrian bisa didapatkan secara \textit{online} dan dapat di pantau secara \textit{online}, maka dapat mengurangi waktu yang terbuang. Dengan aplikasi antrian virtual dapat memperpendek antrian secara fisik, dengan cara antri secara virtual, melihat antrian yang sedang berjalan, dan \textit{booking} tempat. Pada Pengembangan aplikasi ini, \textit{framework} yang digunakan adalah NestJS dan PrismaJS dengan menerapkan RESTful API, \textit{Object Relational Mapping}, dan menghindari Anti-Pattern. \textit{Framework} NestJS mendukung pembuatan aplikasi ber-arsitektur monolitik dan \textit{microservice}. Setelah aplikasi dibangun di arsitektur monolitik, aplikasi dapat dengan mudah di migrasikan ke \textit{microservice} saat penggunaan aplikasi sudah hampir mendekati batas muat pengguna.
+Meningkatnya jumlah pelanggan yang mengantri untuk mendapatkan layanan di bank, restoran, rumah sakit, dan tempat lainnya di Indonesia menyebabkan antrian yang panjang, yang berdampak pada kenyamanan dan kepuasan pelanggan serta mutu layanan. Saat ini, sistem antrian manual masih banyak digunakan, di mana pelanggan harus menunggu di tempat hingga giliran mereka tiba. Sistem ini kurang efisien dan tidak fleksibel bagi pelanggan yang ingin menghemat waktu. Oleh karena itu, diperlukan solusi antrian yang lebih modern dan efektif. Penggunaan aplikasi antrian berbasis web menjadi solusi penting untuk mengatasi masalah ini, dengan memungkinkan pelanggan mengantri secara virtual dari jarak jauh. Penelitian ini mengusulkan pengembangan aplikasi antrian menggunakan arsitektur monolitik dengan \textit{NestJs} dan \textit{PrismaJs} sebagai \textit{framework} utamanya. Arsitektur ini dipilih karena kemudahan pengembangan dan penerapannya pada tahap awal, serta fleksibilitasnya untuk migrasi ke arsitektur \textit{microservice} jika diperlukan di masa depan. \textit{NestJs} mendukung pengembangan aplikasi yang \textit{scalable} dan terstruktur, sementara \textit{PrismaJs} sebagai ORM memudahkan manajemen \textit{database} yang kompleks. Aplikasi ini juga mengimplementasikan otentikasi \textit{JWT} untuk keamanan dan menerapkan prinsip desain yang baik untuk menghindari \textit{anti-pattern}. Hasil pengujian menunjukkan bahwa aplikasi ini memiliki kualitas kode yang baik dengan \textit{code coverage} yang tinggi sebesar 96,32\% pada \textit{unit testing} dan performa yang memadai dalam \textit{stress testing}, meskipun masih ada area yang perlu dioptimalkan, seperti efisiensi fungsi tertentu. Kontribusi utama dari penelitian ini adalah pengembangan sistem antrian yang lebih efektif dan efisien dengan arsitektur yang dapat berkembang sesuai kebutuhan, serta penerapan praktik pengembangan perangkat lunak yang memperhatikan aspek keamanan, dan \textit{maintainability}.
 
 \bigskip
 Kata kunci : NestJS, PrismaJS, Anti-Pattern, Antrian, Backend, REST
@@ -40,7 +40,8 @@ Kata kunci : NestJS, PrismaJS, Anti-Pattern, Antrian, Backend, REST
 \noindent\rule{\textwidth}{1pt}
 Abstract
 
-The high population in Indonesia results in long queues in various public services or consumer services. Customers have to come to the place to take a queue number and wait for their turn; the longer the queue, the longer the waiting time required. This is inefficient and causes a lot of time to be wasted just waiting in line. If queue numbers can be obtained online and monitored online, it can reduce wasted time. With a virtual queue application, it is possible to shorten physical queues by queuing virtually, viewing ongoing queues, and booking places. In the development of this application, the framework used is NestJS and PrismaJS by implementing RESTful API, Object Relational Mapping, and avoiding Anti-Patterns. The NestJS framework supports the creation of monolithic and microservice-architecture applications. After the application is built in a monolithic architecture, it can be easily migrated to a microservice architecture when the application usage is almost reaching the user load limit.
+The increasing number of customers queuing for services at banks, restaurants, hospitals, and other places in Indonesia leads to long queues, which affects customer comfort, satisfaction, and service quality. Currently, manual queuing systems are still widely used, where customers have to wait on-site until their turn arrives. This system is inefficient and inflexible for customers who want to save time. Therefore, a more modern and effective queuing solution is needed. The use of web-based queuing applications becomes an essential solution to address this problem by allowing customers to queue virtually from a distance. This research proposes the development of a queuing application using a monolithic architecture with \textit{NestJs} and \textit{PrismaJs} as the main frameworks. This architecture is chosen for its ease of development and deployment in the initial stages, as well as its flexibility to migrate to a \textit{microservice} architecture if needed in the future. \textit{NestJs} supports the development of scalable and well-structured applications, while \textit{PrismaJs} as an ORM facilitates the management of complex databases. The application also implements \textit{JWT} authentication for security and follows good design principles to avoid anti-patterns.
+The test results indicate that the application has good code quality with a high code coverage of 96.32\% in unit testing and adequate performance in stress testing, although there are still areas that need optimization, such as the efficiency of certain functions. The main contribution of this research is the development of a more effective and efficient queuing system with an architecture that can evolve according to needs, along with the implementation of software development practices that consider aspects of security and maintainability.
 
 \bigskip
 Keywords: NestJS, PrismaJS, Anti-Pattern, Queue, Backend, REST
@@ -58,13 +59,14 @@ Meningkatnya populasi di indonesia mengakibatkan banyak pelanggan yang mengantri
 
 Perkembangan teknologi yang cepat mengakibatkan penggunaan perangkat pintar atau \textit{smartphone} merupakan hal lumrah, banyak bermunculan aplikasi antrian virtual seperti Antrique, Qiwee, ExaQue di mana pengguna dapat mengantri dari jarak jauh melalui aplikasi maupun \textit{website}. Para pengguna aplikasi tersebut dapat melakukan hal lain saat mengantri sebelum gilirannya. Namun, aplikasi-aplikasi tersebut memiliki kelemahan seperti tidak ada estimasi waktu antrian, dan masih belum ada yang berfokus ke sektor \textit{food and beverage}.
 
-Oleh karena itu, perlunya dikembangkan sebuah aplikasi yang memiliki \textit{feature} yang sama atau lebih dengan menutup kekurangan pada aplikasi tersebut. Pengembangan aplikasi menggunakan arsitektur monolitik karena mudahnya untuk dibuat dan di-\textit{deploy} secara cepat untuk di iterasikan. Namun, arsitektur monolitik memiliki kelemahan seperti sulitnya untuk di-\textit{maintenance}, \textit{scale}, dan \textit{reliability} nya. Oleh karena itu, perlu diperhatikan bagaimana cakupan aplikasi ke depannya dan perlunya migrasi ke arsitektur \textit{microservice} \cite{gos2020comparison} \cite{jatkiewicz2023differences}.
+Oleh karena itu, perlunya dikembangkan sebuah aplikasi yang memiliki \textit{feature} yang sama atau lebih dengan menutup kekurangan pada aplikasi tersebut. Pengembangan aplikasi menggunakan arsitektur monolitik karena mudahnya untuk dibuat dan di-\textit{deploy} secara cepat untuk iterasi awal. Arsitektur monolitik memungkinkan proses pengembangan dan deployment lebih efisien dalam skala kecil. Namun, arsitektur monolitik memiliki kelemahan seperti sulitnya untuk di-\textit{maintenance}, \textit{scale}, dan \textit{reliability} nya. Oleh karena itu, perlu dipertimbangkan kemungkinan migrasi ke arsitektur \textit{microservice} seiring dengan berkembangnya kebutuhan dan cakupan aplikasi \cite{gos2020comparison} \cite{jatkiewicz2023differences}.
 
 Dalam pengembangan aplikasi \textit{web}, pemilihan bahasa pemrograman untuk digunakan di \textit{backend} sangatlah penting karena dapat memengaruhi performa aplikasi yang dibangun. Dalam pemilihan bahasa pemrograman \textit{backend}, banyak pilihan yang tersedia seperti PHP, Python, Ruby, PERL, dan banyak lagi. NodeJs merupakan \textit{tools} yang memungkinkan bahasa JavaScript dapat dijalankan pada sisi \textit{backend}. Dalam sisi performa, NodeJs lebih unggul dibanding PHP dan Python dalam sisi kecepatan melayani \textit{request} dari \textit{client} \cite{William2020} \cite{Odeniran2023}.
 
-NestJs merupakan \textit{framework backend} dari Nodejs yang menggunakan bahasa Typescript, dan bisa digunakan untuk pengembangan arsitektur berbasis \textit{microservice} dan monolitik, jadi jika aplikasi dikembangkan pada arsitektur monolitik dapat dengan mudah di migrasi kan ke \textit{microservice}. NestJs juga bisa digunakan bersamaan dengan \textit{framework} PrismaJs untuk mengelola \textit{database} \cite{NestJS}. PrismaJs merupakan \textit{framework} \textit{Object Relational Mapping} (ORM) \cite{Prisma}, digunakan untuk mempercepat, dan mempermudah pengembangan aplikasi yang \textit{database}-nya memiliki relasi yang kompleks dan sulit di-\textit{maintenance} jika menggunakan \textit{Structured Query Language} (SQL) \cite{Zmaranda2020}.
+NestJs adalah \textit{framework backend} untuk Node.js yang menggunakan TypeScript dan dapat digunakan untuk pengembangan arsitektur \textit{microservice} maupun monolitik. Hal ini memungkinkan migrasi yang mudah dari arsitektur monolitik ke \textit{microservice} jika diperlukan. NestJs dapat digabungkan secara efektif dengan \textit{framework} PrismaJs untuk mengelola \textit{database} \cite{NestJS}. PrismaJs adalah \textit{framework Object Relational Mapping} (ORM) \cite{Prisma}, yang dirancang untuk mempercepat dan mempermudah pengembangan aplikasi dengan relasi \textit{database} yang kompleks dan sulit di-maintain menggunakan pendekatan \textit{Structured Query Language} (SQL) tradisional \cite{Zmaranda2020}. PrismaJs menawarkan keunggulan signifikan, termasuk keamanan tipe data yang kuat dengan TypeScript, migrasi \textit{database} yang mudah, performa yang lebih tinggi dibanding TypeOrm \cite{jamil2024use} \cite{kahvic2024prestandajamforelse}, dan pengalaman query yang disederhanakan. Kombinasi ini memungkinkan pengembang untuk membangun aplikasi yang \textit{scalable} dan \textit{maintainable}, serta mempermudah migrasi dari arsitektur monolitik ke arsitektur \textit{microservice} di masa depan.
 
-Implementasi \textit{Application Programming Interface} (API) yang digunakan adalah \textit{Representational State Transfer} (RESTful) API, RESTful API adalah arsitektur untuk mempermudah komunikasi \textit{client-server} agar efektif untuk transaksi data. Namun, pada implementasi RESTful API, ada beberapa hal yang perlu diperhatikan seperti keamanan saat transaksi  atau komunikasi \cite{Beer2018}. Keamanan yang lemah dapat mengakibatkan \textit{hacker} dapat dengan mudah melakukan \textit{request tampering}, mengambil data pengguna, dan dapat membocorkan data keuangan mitra. \textit{Design pattern} juga perlu diperhatikan dalam penggunaan bahasa untuk API \textit{endpoint} nya agar tidak terjadi \textit{anti pattern}. \textit{Anti pattern} terjadi saat penamaan API tidak sesuai dengan fungsi, atau ada fungsi sejenis tapi penamaan-nya berbeda jauh. Dengan menghindari \textit{anti pattern}, dapat berakibat ke aplikasi yang lebih mudah di-\textit{sustain} dan di-\textit{maintain} \cite{Aghajani2018} \cite{Alshraiedeh2021}.
+
+Implementasi \textit{Application Programming Interface} (API) yang digunakan adalah \textit{Representational State Transfer} (RESTful) API, RESTful API adalah arsitektur untuk mempermudah komunikasi \textit{client-server} agar efektif untuk transaksi data. Namun, pada implementasi RESTful API, ada beberapa hal yang perlu diperhatikan seperti keamanan saat transaksi  atau komunikasi \cite{Beer2018}. Keamanan yang lemah dapat mengakibatkan \textit{hacker} dapat dengan mudah melakukan \textit{request tampering}, mengambil data pengguna, dan dapat membocorkan data keuangan mitra. Selain itu, penggunaan pola desain (\textit{design pattern}) yang tepat sangat penting untuk menghindari terjadinya \textit{anti-pattern}, yaitu praktik yang tidak dianjurkan atau kesalahan umum yang sering terjadi dalam pengembangan API. Menghindari \textit{anti-pattern} seperti penamaan endpoint yang tidak konsisten, \textit{over-fetching}, dan \textit{under-fetching} dapat meningkatkan kemampuan aplikasi untuk di-maintain dan di-sustain dalam jangka panjang \cite{Aghajani2018} \cite{Alshraiedeh2021}.
 
 Berdasarkan uraian di atas, penelitian ini akan membuat sebuah \textit{backend} aplikasi antrian dengan menggunakan arsitektur monolitik dengan \textit{framework} NestJs dan PrismaJs sebagai \textit{framework} nya. Setelah \textit{features} aplikasi dibuat, perlu dilakukan unit testing untuk memvalidasi \textit{code} yang telah ditulis. Hal ini bertujuan untuk meminimalkan \textit{bug} dan mencegah terjadinya regresi saat \textit{feature} baru ditambahkan \cite{runeson2006survey}.
 
@@ -364,8 +366,6 @@ setiap \textit{endpoint} entity mendukung 4 \textit{method} http yaitu POST, GET
     /auth/login/pelanggan & POST  & Endpoint untuk aplikasi mobile pelanggan, pengguna memasukkan credential login lalu akan mendapatkan JWT Token untuk mengakses enpoint API lain nya \\
     \hline
     /auth/login/mitra & POST & Endpoint untuk aplikasi mobile mitra, dan Web Dashboard. pengguna memasukkan credential login lalu akan mendapatkan JWT Token untuk mengakses enpoint API lain nya \\
-    \hline
-    /auth/profile & GET  & Endpoint untuk decode JWT payload \\
     \hline
     
   \end{longtable}
@@ -684,7 +684,7 @@ setiap \textit{endpoint} entity mendukung 4 \textit{method} http yaitu POST, GET
 \end{enumerate}
 
 \subsection{Alur Pengujian}
-Pengujian menggunakan metode \textit{white} \textit{box} testing yaitu unit testing. Testing dilakukan pada setiap fungsi yang telah dibuat tanpa terhubung ke komponen lain. Setelah semua fungsi lulus unit testing, dilakukan analisis statis menggunakan SonarQube untuk mengetahui indeks \textit{Maintainability}, \textit{Reliability}, dan \textit{Security}. Lalu dilakukan \textit{performance} dan \textit{load} testing menggunakan \textit{library} K6 pada node.js untuk mengukur \textit{performance} aplikasi. \textit{Environment} Testing menggunakan \textit{local} \textit{build} pada \textit{laptop} penulis. Diagram alur pengujian dapat dilihat pada gambar \ref{alur-testing}.
+Pengujian menggunakan metode \textit{white} \textit{box} testing yaitu unit testing. Testing dilakukan pada setiap fungsi yang telah dibuat tanpa terhubung ke komponen lain. Setelah semua fungsi lulus unit testing, dilakukan analisis statis menggunakan SonarQube untuk mengetahui indeks \textit{Maintainability}, \textit{Reliability}, dan \textit{Security}. Diagram alur pengujian dapat dilihat pada gambar \ref{alur-testing}.
 
 \begin{figure}[h]
   {\centering {\includegraphics[scale=0.75]{drawio/alur-testing.png}}\par}
@@ -720,30 +720,6 @@ Pengujian dimulai dengan membuat \textit{file} yang bernama component.spec.ts se
 \subsubsection{Maintainability Testing}
 Pengujian terhadap aspek \textit{maintainability} dari perangkat lunak dilakukan dengan menggunakan alat analisis statis bernama \textit{SonarQube}. Alat ini memberikan penilaian berupa indeks \textit{rating} yang di kategori-kan dalam tingkatan A, B, C, D, dan E, yang masing-masing mencerminkan tingkat kualitas dari tiga aspek utama, yaitu \textit{Security} (keamanan), \textit{Reliability} (keandalan), dan \textit{maintainability} (kemudahan pemeliharaan). Tingkatan A menunjukkan kualitas terbaik, sedangkan E menunjukkan kualitas terendah. Dengan menggunakan \textit{SonarQube}, penulis dapat mengidentifikasi area dalam kode yang memerlukan perbaikan untuk meningkatkan kualitas perangkat lunak secara keseluruhan.
 
-
-\subsubsection{Performance Testing \& Stress Testing}
-Pengujian performa dilakukan menggunakan K6 dengan cara melakukan \textit{request} secara \textit{concurrent} berdasarkan VU (Virtual User) yang di spesifikasi-kan. Pada \textit{listing} \ref{lst:k6-thresh}, penulis mendefinisikan VU sebanyak 10, dengan stages pada detik 10 harus terdapat 100 VU yang melakukan, dan detik 20 terdapat 200 VU yang melakukan \textit{request}, ini mengakibatkan fungsi akan menambah VU secara dinamis dalam 1 testing. Penulis juga mendefinisikan \textit{Request} \textit{blocked} tidak boleh lebih dari 30 \textit{milisecond}, \textit{request} \textit{connecting} tidak boleh selama 100 \textit{milisecond} untuk 90\% \textit{request}, durasi \textit{request} tidak lebih dari 1 detik untuk 90\% \textit{request}, dan \textit{rate} kegagalan \textit{request} kurang dari 0,1\% \cite{nah2004study}.
-\begin{lstlisting}[caption={Konfigurasi dan threshold yang perlu dicapai pada K6},label={lst:k6-thresh}]
-  export const options = {
-    vus: 10,
-    thresholds: {
-      http_req_blocked: ['p(100)<=30'],
-      http_req_connecting: ['p(90)<100'],
-      http_req_duration: ['p(90)<1000'],
-      http_req_failed: ['rate<0.1'],
-      http_req_receiving: ['p(90)<50'],
-      http_req_sending: ['p(90)<10'],
-    },
-    tags: {
-      environment: 'production',
-    },
-    stages: [
-      { duration: '10s', target: 100 },
-      { duration: '20s', target: 200 },
-    ],
-  };
-\end{lstlisting}
-
 \newpage
 
 \subsection{Deployment}
@@ -759,6 +735,140 @@ Pada diagram \ref{deployment} menjelaskan bagaimana \textit{server} \textit{back
 \newpage
 
 \section{Evaluasi}
+\subsection{Endpoint Anti Pattern}
+Untuk mengevaluasi pattern pada endpoint yang telah dibuat perlu adanya standarisasi penamaan endpoint berdasarkan \cite{cs7194} seperti berikut :
+\begin{lstlisting}[caption={Format penamaan endpoint dasar},label={lst:endpoint1level}]
+  untuk GET all dan POST sebuah entity
+  /entity
+  untuk GET id dan DELETE sebuah entity
+  /entity/{entity_id}
+\end{lstlisting}
+Enpoint tersebut telah mencakup seluruh method yang diperlukan REST API, namun jika memerlukan data yang terhubung dengan entity lain maka didefinisikan format sebagai berikut :
+\begin{lstlisting}[caption={Format penamaan endpoint entity from entity},label={lst:endpoint2level}]
+  untuk GET seluruh entity Berdasarkan entity kedua
+  /entity/2nd_entity/{2nd_entity_id}
+  Untuk GET,UPDATE, dan DELETE Entity dengan composite Key antara 2 entity
+  /entity/{2nd_entity_id}/{3rd_entity_id}
+\end{lstlisting}
+Lalu ada juga endpoint dimana entity pertama melakukan fungsi terhadap entity kedua dengan format :
+\begin{lstlisting}[caption={Format penamaan endpoint entity function to entity},label={lst:endpointfunction}]
+  /entity/function/2nd_entity
+\end{lstlisting}
+Dari format diatas dapat dievaluasi endpoint API yang telah dibuat :
+\begin{longtable}{| p{10cm} | p{1.5cm} | p{1.5cm} |}
+  \caption{Evaluasi Endpoint Anti Pattern} \label{tbl:anti-pattern} \\
+  \hline
+  \textbf{Path} & \textbf{Method} & \textbf{Evaluasi} \\
+  \hline
+  \endfirsthead
+  \multicolumn{3}{c}%
+  {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+  \hline
+  \textbf{Path} & \textbf{Method} & \textbf{Evaluasi} \\
+  \hline
+  \endhead
+  \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+  \endfoot
+  \hline
+  \endlastfoot
+  /auth/login/pelanggan & POST  & SESUAI \\
+  \hline
+  /auth/login/mitra & POST & SESUAI \\
+  \hline
+  /pelanggan & GET  & SESUAI \\
+  \hline
+  /pelanggan & POST  & SESUAI \\
+  \hline
+  /pelanggan/\{id\} & GET  & SESUAI \\
+  \hline
+  /pelanggan/\{id\} & PUT  & SESUAI \\
+  \hline
+  /pelanggan/\{id\} & DELETE  & SESUAI \\
+  \hline
+  /karyawan & GET  & SESUAI \\
+  \hline
+  /karyawan & POST  & SESUAI \\
+  \hline
+  /karyawan/\{id\} & GET  & SESUAI \\
+  \hline
+  /karyawan/\{id\} & PUT  & SESUAI \\
+  \hline
+  /karyawan/\{id\} & DELETE  & SESUAI \\
+  \hline
+  /karyawan/mitra/\{mitraId\} & GET  & SESUAI \\
+  \hline
+  /mitra & GET  & SESUAI \\
+  \hline
+  /mitra & POST  & SESUAI \\
+  \hline
+  /mitra/\{id\} & GET  & SESUAI \\
+  \hline
+  /mitra/\{id\} & PUT  & SESUAI \\
+  \hline
+  /mitra/\{id\} & DELETE  & SESUAI \\
+  \hline
+  /produk & GET  & SESUAI \\
+  \hline
+  /produk & POST  & SESUAI \\
+  \hline
+  /produk/\{id\} & GET  & SESUAI \\
+  \hline
+  /produk/\{id\} & PUT  & SESUAI \\
+  \hline
+  /produk/\{id\} & DELETE  & SESUAI \\
+  \hline
+  /produk/mitra/\{mitraId\} & GET  & SESUAI \\
+  \hline
+  /pesanan & GET  & SESUAI \\
+  \hline
+  /pesanan & POST  & SESUAI \\
+  \hline
+  /pesanan/\{invoice\} & GET  & SESUAI \\
+  \hline
+  /pesanan/\{invoice\} & PUT  & SESUAI \\
+  \hline
+  /pesanan/\{invoice\} & DELETE  & SESUAI \\
+  \hline
+  /pesanan/mitra/\{mitraId\} & GET  & SESUAI \\
+  \hline
+  /orderlist & POST  & SESUAI \\
+  \hline
+  /orderlist/\{id\} & GET  & SESUAI \\
+  \hline
+  /orderlist/\{id\} & PUT  & SESUAI \\
+  \hline
+  /orderlist/\{id\} & DELETE  & SESUAI \\
+  \hline
+  /orderlist/invoice/\{invoice\} & GET  & SESUAI \\
+  \hline
+  /antrian & POST  & SESUAI \\
+  \hline
+  /antrian/\{id\} & GET  & SESUAI \\
+  \hline
+  /antrian/\{id\} & PUT  & SESUAI \\
+  \hline
+  /antrian/\{id\} & DELETE  &  SESUAI \\
+  \hline
+  /antrian/mitra/\{mitraId\} & GET  & SESUAI \\
+  \hline
+  /reviews & GET  & SESUAI \\
+  \hline
+  /reviews & POST  & SESUAI \\
+  \hline
+  /reviews/mitra/\{mitraId\} & GET  & SESUAI \\
+  \hline
+  /reviews/\{mitraId\}/\{pelangganId\} & GET  & SESUAI \\
+  \hline
+  /reviews/\{mitraId\}/\{pelangganId\} & PUT  & SESUAI \\
+  \hline
+  /reviews/\{mitraId\}/\{pelangganId\} & DELETE  & SESUAI \\
+  \hline
+  /image/\{fileName\} & GET  & SESUAI \\
+  \hline
+
+\end{longtable}
+
+
 
 \subsection{Hasil Pengujian}
 \subsubsection{Unit Testing}
@@ -791,48 +901,11 @@ Pada bagian ini, penulis melakukan pengujian menggunakan \textit{SonarQube} dan 
   \label{maintainability-testing-2}
 \end{figure}
 
-\subsubsection{Performance Testing}
-Pada bagian performance testing, penulis menguji beberapa \textit{feature} yang mewakili \textit{method} HTTP GET, POST, dan PUT. Untuk GET penulis menguji fungsi untuk mengambil seluruh mitra, untuk POST penulis menguji fungsi untuk \textit{Register} \textit{user}, untuk PUT penulis menguji fungsi \textit{update} \textit{user}.
-
-\begin{figure}[H]
-  {\centering {\includegraphics[scale=0.65]{drawio/register-test.png}}\par}
-  \caption{Hasil performance testing untuk register user (POST)}
-  \label{register-testing}
-\end{figure}
-
-\begin{figure}[H]
-  {\centering {\includegraphics[scale=0.65]{drawio/login-test.png}}\par}
-  \caption{Hasil performance testing untuk login user (POST)}
-  \label{login-testing}
-\end{figure}
-
-\begin{figure}[H]
-  {\centering {\includegraphics[scale=0.65]{drawio/mitra-test.png}}\par}
-  \caption{Hasil performance testing get semua mitra (GET)}
-  \label{mitra-testing}
-\end{figure}
-
-\begin{figure}[H]
-  {\centering {\includegraphics[scale=0.6]{drawio/mitra-id-test.png}}\par}
-  \caption{Hasil performance testing get mitra berdasar id (GET)}
-  \label{mitra-id-testing}
-\end{figure}
-
-\begin{figure}[H]
-  {\centering {\includegraphics[scale=0.6]{drawio/update-user-test.png}}\par}
-  \caption{Hasil performance testing update user berdasar id (PUT)}
-  \label{update-user-testing}
-\end{figure}
-
 \newpage
-
 
 \subsection{Analisis Hasil Pengujian}
 \subsubsection{Unit Testing}
 Semua \textit{test case} pada unit testing lolos uji atau \textit{pass} dengan \textit{code coverage} 96,32\% dengan LOC (Line Of Code) sekitar 524 dari 544 LOC. Jika dilihat pada gambar \ref{unit-testing}, LOC yang tidak teruji terdapat pada \textit{file} karyawan, mitra, pelanggan, dan produk. Kode yang tidak teruji berupa \textit{interceptor} untuk mendeteksi \textit{file} gambar pada \textit{multipart} \textit{request}, fungsi tersebut tidak dapat diuji pada unit testing dikarenakan perlunya \textit{request} autentik \textit{multipart} dan tidak bisa di simulasi-kan secara efektif.
-
-\subsubsection{Performance Testing}
-\textit{Performance} testing berfungsi untuk melihat seberapa kuat \textit{backend} untuk melayani banyak \textit{request} dalam secara bersamaan. Dilihat dari hasil testing ada beberapa hal yang ditemukan. Dari 5 Testing, 2 diantaranya belum memenuhi spesifikasi yang telah ditetapkan. Pada gambar \ref{login-testing} menampilkan hasil testing dari fungsi \textit{login} \textit{user}. Tertulis rata rata durasi sebesar 3 detik dengan \textit{delay} terendah berada di 126 \textit{milisecond} dan \textit{delay} tertinggi berada di 6 detik, hal ini diakibatkan oleh fungsi \textit{login} yang membanding satu \textit{string} \textit{password} dengan versi bcrypt, dengan cara \textit{string} \textit{password} di enkripsi terlebih dahulu lalu di bandingkan, hal ini memakan waktu yang mengakibatkan \textit{delay} tinggi saat \textit{server} \textit{over} \textit{capacity}. Lalu pada gambar \ref{register-testing} memiliki hasil yang mirip dengan fungsi \textit{login}, hal ini dikarenakan fungsi \textit{register} melakukan \textit{insert} \textit{database} di mana pada ORM Prisma sedikit lebih lambat dibanding edit dan \textit{view} data. Pada fungsi \textit{get} \textit{all} mitra pada gambar \ref{mitra-testing}, rata-rata \textit{delay} yang didapatkan tidak lambat yaitu sebesar 9,7 \textit{milisecond}, sedangkan untuk \textit{get} mitra \textit{by} id pada gambar \ref{mitra-id-testing} sebesar 5 \textit{milisecond}. Untuk fungsi terakhir yaitu \textit{update} \textit{user} \textit{by} id pada gambar \ref{update-user-testing}, rata-rata \textit{duration} yang di dapat sebesar 30 \textit{milisecond}.
 
 \subsubsection{Maintainability Testing}
 Pada gambar \ref{maintainability-testing-1} menunjukkan hasil analisis dari SonarQube bahwa kualitas kode secara keseluruhan memenuhi standar yang ditetapkan. Namun, ada beberapa area yang perlu diperhatikan terkait \textit{maintainability}. Persentase \textit{Duplications} adalah 12.9\%, yang menunjukkan adanya duplikasi kode dalam 5.9k baris kode. Meskipun ini tidak secara langsung memengaruhi \textit{maintainability} dalam skala besar, pengurangan duplikasi dapat meningkatkan kualitas kode secara keseluruhan. Pada aspek \textit{maintainability}, SonarQube memberikan penilaian A, yang menunjukkan tingkat \textit{maintainability} yang baik. Namun, pada gambar \ref{maintainability-testing-2}, ada satu isu khusus yang perlu diperbaiki: fungsi \texttt{createPesanan}. Fungsi ini memiliki \textit{Cognitive Complexity} sebesar 16, yang melebihi batas yang diizinkan yaitu 15. Untuk meningkatkan \textit{maintainability}, disarankan untuk merestrukturisasi fungsi ini agar \textit{Cognitive Complexity} dapat dikurangi, sehingga mempermudah pemahaman dan pemeliharaan kode di masa depan.
@@ -848,14 +921,18 @@ Berdasarkan implementasi dan perancangan sistem menggunakan NestJs dan Prisma, d
     \item \textbf{Menghindari Over-fetching dan Under-fetching}
   \end{itemize}
   \item \textbf{keamanan}\newline
-  Keamanan adalah aspek penting dalam pengembangan aplikasi, beberapa langkah yang diambil untuk memastikan keamanan sistem meliputi:
+  Keamanan adalah aspek penting dalam pengembangan aplikasi, dan penelitian ini menunjukkan bahwa langkah-langkah yang diambil untuk memastikan keamanan sistem telah berhasil diterapkan dengan baik. Beberapa langkah yang diimplementasikan meliputi:
+
   \begin{itemize}
-    \item \textbf{JWT Authentication}: Penggunaan JWT untuk otentikasi dan otorisasi pengguna, memastikan hanya pengguna yang valid dapat mengakses endpoint tertentu.
-    \item \textbf{Data Validation}: Validasi data pada setiap layer (Controller, Service) untuk memastikan integritas dan keamanan data.
-    \item \textbf{Encryption}: Penggunaan bcrypt untuk meng-hash password pengguna sebelum disimpan di database.
+    \item \textbf{JWT Authentication}: Penggunaan JWT untuk otentikasi dan otorisasi pengguna, yang memastikan hanya pengguna yang valid dapat mengakses endpoint tertentu, sehingga meningkatkan keamanan akses aplikasi.
+    \item \textbf{Data Validation}: Validasi data diterapkan pada setiap layer aplikasi (Controller, Service) untuk menjaga integritas dan keamanan data, mengurangi risiko serangan injeksi dan data yang tidak valid.
+    \item \textbf{Encryption}: Penggunaan bcrypt untuk meng-hash password pengguna sebelum disimpan di database, melindungi data sensitif dari potensi kebocoran atau akses tidak sah.
   \end{itemize}
+  Selain itu, analisis menggunakan SonarQube menunjukkan bahwa kualitas kode terkait keamanan memenuhi standar yang ditetapkan, dengan identifikasi dan mitigasi kerentanan yang efektif. SonarQube memberikan penilaian positif terhadap keamanan kode, namun juga menyoroti area-area yang masih perlu diperhatikan untuk meningkatkan keamanan lebih lanjut.
+
   \item \textbf{Maintainabilitas}\newline
-  Maintainabilitas adalah kemampuan sistem untuk dapat dipelihara dan dikembangkan lebih lanjut dengan mudah dengan cara menggunakan Prisma sebagai ORM untuk manajemen database yang lebih mudah dan terstruktur.
+  Hasil penelitian menunjukkan bahwa sistem yang dikembangkan menggunakan kombinasi \textit{NestJs} dan \textit{PrismaJs} memiliki tingkat maintainabilitas yang tinggi. \textit{NestJs} menerapkan prinsip \textit{Separation of Concerns} dengan memisahkan setiap komponen aplikasi seperti \textit{Controller}, \textit{Service}, \textit{Middleware}, \textit{Guards}, dan \textit{Interceptors} sesuai dengan tanggung jawab masing-masing, sehingga memudahkan pengembangan, pemeliharaan, dan pengujian komponen secara terpisah. Sementara itu, \textit{PrismaJs} sebagai ORM mempermudah manajemen \textit{database} yang kompleks dengan menyediakan struktur yang jelas, dukungan tipe data yang kuat, dan fitur migrasi yang intuitif. Kombinasi ini tidak hanya mempercepat pengembangan aplikasi, tetapi juga mempermudah proses pemeliharaan dan pengembangan lebih lanjut, menjadikannya solusi yang efektif untuk aplikasi yang memerlukan skalabilitas dan fleksibilitas tinggi.
+
 \end{enumerate}
 
 \subsection{Saran}
